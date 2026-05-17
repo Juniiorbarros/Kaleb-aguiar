@@ -55,7 +55,9 @@ function BrandMark({ compact = false }) {
 function KalebTypemark({ compact = false }) {
   return (
     <SmartLink href="/" className={`kaleb-typemark ${compact ? "kaleb-typemark--compact" : ""}`} aria-label="Kaleb Aguiar">
-      <span className="kaleb-seal">KA</span>
+      <span className="kaleb-seal">
+        <img src={clientConfig.assets.logo} alt="" />
+      </span>
       <span className="kaleb-signature">
         <strong>Kaleb Aguiar</strong>
         <em>Designer de moda</em>

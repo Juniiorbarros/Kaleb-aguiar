@@ -802,6 +802,7 @@ h1 {
   place-items: center;
   width: 42px;
   height: 42px;
+  overflow: hidden;
   border-radius: 50%;
   color: oklch(12% 0.018 38);
   background: linear-gradient(135deg, var(--gold), var(--champagne));
@@ -809,6 +810,12 @@ h1 {
   font-size: 1rem;
   font-weight: 700;
   line-height: 1;
+}
+
+.kaleb-seal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .kaleb-signature strong {
@@ -1445,11 +1452,11 @@ h1 {
   }
 
   .flyer-poster {
-    padding: 8px;
+    padding: 6px;
   }
 
   .flyer-hero {
-    min-height: 488px;
+    min-height: 372px;
   }
 
   .flyer-hero-image img,
@@ -1465,25 +1472,24 @@ h1 {
   }
 
   .flyer-top {
-    padding: 12px;
+    padding: 10px;
   }
 
   .kaleb-typemark {
-    gap: 8px;
-    padding: 6px 10px 6px 6px;
+    gap: 7px;
+    padding: 5px 9px 5px 5px;
     border-color: oklch(74% 0.13 82 / 0.36);
     background:
       linear-gradient(180deg, oklch(8% 0.014 36 / 0.72), oklch(4% 0.01 36 / 0.46));
   }
 
   .kaleb-seal {
-    width: 32px;
-    height: 32px;
-    font-size: 0.78rem;
+    width: 34px;
+    height: 34px;
   }
 
   .kaleb-signature strong {
-    font-size: 1.02rem;
+    font-size: 0.9rem;
     font-weight: 700;
     font-style: italic;
     letter-spacing: 0.01em;
@@ -1492,18 +1498,18 @@ h1 {
 
   .kaleb-signature em {
     margin-top: 3px;
-    font-size: 0.39rem;
-    letter-spacing: 0.16em;
+    font-size: 0.34rem;
+    letter-spacing: 0.14em;
   }
 
   .flyer-menu {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 
   .flyer-copy {
     width: min(72%, 288px);
-    padding: 4px 12px 16px;
+    padding: 0 11px 12px;
   }
 
   .flyer-copy h1 {
@@ -1523,9 +1529,9 @@ h1 {
   }
 
   .flyer-kicker {
-    margin-bottom: 8px;
-    font-size: 0.46rem;
-    letter-spacing: 0.2em;
+    margin-bottom: 7px;
+    font-size: 0.42rem;
+    letter-spacing: 0.18em;
   }
 
   .flyer-divider {
@@ -1536,17 +1542,17 @@ h1 {
   .flyer-cta-stack {
     width: min(340px, calc(100vw - 34px));
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-    margin-top: 12px;
+    gap: 6px;
+    margin-top: 10px;
   }
 
   .flyer-cta-stack .btn {
-    min-height: 36px;
+    min-height: 31px;
     padding-inline: 6px;
     border-color: oklch(74% 0.13 82 / 0.48);
     border-radius: 7px;
     letter-spacing: 0.018em;
-    font-size: 0.49rem;
+    font-size: 0.45rem;
     font-weight: 900;
     line-height: 1.1;
     text-align: center;
@@ -1572,13 +1578,13 @@ h1 {
     width: min(340px, calc(100vw - 34px));
     display: flex;
     align-items: center;
-    gap: 4px;
-    margin-top: 7px;
+    gap: 3px;
+    margin-top: 6px;
   }
 
   .flyer-proof-strip span {
     min-width: 0;
-    min-height: 22px;
+    min-height: 18px;
     display: inline-flex;
     flex: 0.86 1 0;
     align-items: center;
@@ -1588,7 +1594,7 @@ h1 {
     border-radius: 999px;
     color: oklch(90% 0.035 82 / 0.9);
     background: oklch(7% 0.012 36 / 0.52);
-    font-size: 0.39rem;
+    font-size: 0.33rem;
     font-weight: 850;
     letter-spacing: 0.035em;
     line-height: 1;
@@ -1604,6 +1610,9 @@ h1 {
 
   .flyer-scroll-cue {
     display: inline-flex;
+    bottom: 20px;
+    width: 30px;
+    height: 30px;
   }
 
   .flyer-side-rail {
@@ -1841,10 +1850,10 @@ h1 {
   }
 
   .flyer-cta-stack .btn {
-    min-height: 35px;
+    min-height: 30px;
     padding-inline: 5px;
     letter-spacing: 0.012em;
-    font-size: 0.47rem;
+    font-size: 0.42rem;
     gap: 5px;
   }
 
@@ -1854,9 +1863,9 @@ h1 {
   }
 
   .flyer-proof-strip span {
-    min-height: 20px;
+    min-height: 17px;
     padding-inline: 3px;
-    font-size: 0.32rem;
+    font-size: 0.29rem;
     letter-spacing: 0.012em;
   }
 
