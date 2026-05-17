@@ -1513,13 +1513,13 @@ h1 {
 
   .flyer-hero-mobile-bg--boi {
     object-position: 100% 50%;
-    transform: scale(1.22);
+    transform: scale(1.42);
     animation-delay: -1.4s;
   }
 
   .flyer-hero-mobile-bg--nicole {
     object-position: 100% 50%;
-    transform: scale(1.22);
+    transform: scale(1.42);
     animation-delay: 4.6s;
   }
 
