@@ -280,35 +280,71 @@ function LinkAction({ item }) {
 }
 
 function OccasionShowcase({ items }) {
-  const [activeId, setActiveId] = React.useState(items[0]?.id);
-  const active = items.find((item) => item.id === activeId) || items[0];
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const active = items[activeIndex] || items[0];
+  const goTo = React.useCallback((index) => {
+    const length = items.length;
+    setActiveIndex(((index % length) + length) % length);
+  }, [items.length]);
 
   return (
-    <section className="occasion-showcase" id="flyer-estilos" aria-label="Escolher estilo de vestido">
-      <div className="occasion-stage">
-        <img src={active.image} alt={active.title} loading="eager" />
-        <div className="occasion-stage-shade" aria-hidden="true" />
-        <div className="occasion-stage-copy">
-          <span>{active.eyebrow}</span>
-          <h2>{active.label}</h2>
-          <p>{active.body}</p>
-          <SmartLink href={buildReservationUrl(active.label)}>
-            {active.title}
-            <ArrowIcon />
-          </SmartLink>
-        </div>
-      </div>
-      <div className="occasion-rail" role="list">
+    <section className="occasion-showcase" id="flyer-estilos" aria-label="Escolher estilo de vestido" style={{ "--occasion-accent": active.accent }}>
+      <div className="occasion-bg-stack" aria-hidden="true">
         {items.map((item, index) => (
-          <SmartLink
+          <img key={item.id} src={item.image} alt="" className={index === activeIndex ? "is-active" : ""} loading={index < 2 ? "eager" : "lazy"} />
+        ))}
+      </div>
+
+      <div className="occasion-editorial" key={`copy-${active.id}`}>
+        <p className="flyer-kicker">Escolha sua ocasiao</p>
+        <h2>Encontre o vestido ideal.</h2>
+        <div className="occasion-count">
+          <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+          <i />
+          <span>{String(items.length).padStart(2, "0")}</span>
+        </div>
+        <strong>{active.eyebrow}</strong>
+        <p>{active.body}</p>
+        <SmartLink href={buildReservationUrl(active.label)} className="btn btn--primary">
+          <CrownIcon />
+          <span>{active.title}</span>
+        </SmartLink>
+      </div>
+
+      <div className="occasion-visual" aria-live="polite">
+        <button className="occasion-nav occasion-nav--prev" type="button" onClick={() => goTo(activeIndex - 1)} aria-label="Vestido anterior">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <div className="occasion-stage" key={active.id}>
+          <img src={active.image} alt={active.title} loading="eager" />
+          <div className="occasion-stage-shade" aria-hidden="true" />
+          <div className="occasion-stage-copy">
+            <span>{active.eyebrow}</span>
+            <h2>{active.label}</h2>
+            <SmartLink href={buildReservationUrl(active.label)}>
+              {active.title}
+              <ArrowIcon />
+            </SmartLink>
+          </div>
+        </div>
+        <button className="occasion-nav occasion-nav--next" type="button" onClick={() => goTo(activeIndex + 1)} aria-label="Proximo vestido">
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>
+
+      <div className="occasion-rail" role="listbox" aria-label="Ocasiões">
+        {items.map((item, index) => (
+          <button
             key={item.id}
-            href={buildReservationUrl(item.label)}
-            className={`occasion-tile ${item.id === active.id ? "is-active" : ""}`}
+            type="button"
+            className={`occasion-tile ${index === activeIndex ? "is-active" : ""}`}
             style={{ "--accent": item.accent, "--delay": `${index * 55}ms` }}
-            onMouseEnter={() => setActiveId(item.id)}
-            onFocus={() => setActiveId(item.id)}
-            aria-label={`${item.title} pelo Instagram`}
-            role="listitem"
+            onClick={() => goTo(index)}
+            onMouseEnter={() => goTo(index)}
+            onFocus={() => goTo(index)}
+            aria-label={`Ver ${item.label}`}
+            aria-selected={index === activeIndex}
+            role="option"
           >
             <img src={item.image} alt="" loading={index < 3 ? "eager" : "lazy"} />
             <span className="occasion-tile-glow" aria-hidden="true" />
@@ -316,7 +352,7 @@ function OccasionShowcase({ items }) {
               <em>{item.eyebrow}</em>
               <strong>{item.label}</strong>
             </span>
-          </SmartLink>
+          </button>
         ))}
       </div>
     </section>
@@ -369,13 +405,22 @@ function LinkPage() {
             <i className="flyer-divider" aria-hidden="true" />
             <p>Escolha sua ocasiao e agende uma prova com atendimento sob medida.</p>
             <div className="flyer-cta-stack">
-              <CtaButton context="linkpage flyer principal">Reservar meu vestido</CtaButton>
+              <CtaButton context="linkpage flyer principal">Agendar minha prova</CtaButton>
               <a className="btn btn--outline" href="#flyer-estilos">
-                <span>Explorar estilos</span>
+                <span>Ver vestidos disponiveis</span>
                 <ArrowIcon />
               </a>
             </div>
+            <div className="flyer-proof-strip" aria-label="Diferenciais principais">
+              {clientConfig.proof.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
           </div>
+
+          <a className="flyer-scroll-cue" href="#flyer-estilos" aria-label="Descer para escolher estilos">
+            <span aria-hidden="true">↓</span>
+          </a>
 
           <aside className="flyer-side-rail" aria-hidden="true">
             <span>Exclusividade</span>
