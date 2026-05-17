@@ -405,7 +405,7 @@ function LinkPage() {
             <p className="flyer-kicker">Atelie em Manaus</p>
             <h1>Vestidos que <span>transformam</span> ocasioes em <span>memoria</span></h1>
             <i className="flyer-divider" aria-hidden="true" />
-            <p>Escolha sua ocasiao e agende uma prova com atendimento sob medida.</p>
+            <p className="flyer-support-copy">Escolha sua ocasiao e agende uma prova com atendimento sob medida.</p>
             <div className="flyer-cta-stack">
               <CtaButton context="linkpage flyer principal">Agendar minha prova</CtaButton>
               <a className="btn btn--outline" href="#flyer-estilos">
