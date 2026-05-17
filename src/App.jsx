@@ -381,24 +381,24 @@ function LinkPage() {
       <article className="flyer-poster" aria-label="Linkpage premium Kaleb Aguiar">
         <section className="flyer-hero">
           <div className="flyer-hero-image" aria-hidden="true">
+            <img className="flyer-hero-poster" src="/assets/kaleb-aguiar/link-hero-editorial-poster.png" alt="" />
+            <img className="flyer-hero-mobile-bg flyer-hero-mobile-bg--boi" src={clientConfig.assets.heroMobileBoi} alt="" />
+            <img className="flyer-hero-mobile-bg flyer-hero-mobile-bg--nicole" src={clientConfig.assets.heroMobileNicole} alt="" />
             <video
               src="/assets/kaleb-aguiar/kaleb-link-hero-editorial.mp4"
-              poster="/assets/kaleb-aguiar/link-hero-editorial-poster.png"
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              controls={false}
+              disablePictureInPicture
+              controlsList="nodownload noplaybackrate nofullscreen"
+              preload="auto"
             />
           </div>
 
           <header className="flyer-top">
             <KalebTypemark />
-            <SmartLink href={clientConfig.instagramUrl} className="flyer-menu" aria-label="Abrir Instagram Kaleb Aguiar">
-              <span />
-              <span />
-              <span />
-            </SmartLink>
           </header>
 
           <div className="flyer-copy">

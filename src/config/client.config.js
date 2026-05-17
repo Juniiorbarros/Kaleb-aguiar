@@ -18,6 +18,8 @@ export const clientConfig = {
   assets: {
     logo: image("kaleb-logo.jpeg"),
     hero: image("hero-debutante-roxo-escadaria.png"),
+    heroMobileBoi: image("vestido-boi-mobile-bg.png"),
+    heroMobileNicole: image("vestido-nicole-mobile-bg.png"),
     green: image("vestido-verde-plumas-corredor.png"),
     red: image("vestido-vermelho-fenda.png"),
     blue: image("figurino-azul-palco.png"),
