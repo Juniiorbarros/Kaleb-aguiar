@@ -1515,16 +1515,12 @@ h1 {
   }
 
   .flyer-hero-mobile-bg--nicole {
-    object-fit: contain;
-    object-position: center 50%;
-    background: oklch(5% 0.01 36);
-    transform: none;
+    object-position: 56% 50%;
     animation-delay: 4.6s;
   }
 
   .flyer-hero::after {
-    background:
-      linear-gradient(0deg, oklch(5% 0.01 36 / 0.7) 0%, oklch(5% 0.01 36 / 0.46) 24%, transparent 48%);
+    display: none;
   }
 
   .flyer-top {
