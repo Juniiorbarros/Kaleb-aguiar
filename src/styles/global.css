@@ -1480,10 +1480,12 @@ h1 {
 
   .flyer-poster {
     padding: 6px;
+    box-shadow: none;
   }
 
   .flyer-hero {
     min-height: 460px;
+    box-shadow: none;
   }
 
   .flyer-hero-image img,
@@ -1522,7 +1524,9 @@ h1 {
   }
 
   .flyer-hero::after {
+    content: none;
     display: none;
+    background: none;
   }
 
   .flyer-top {
@@ -1582,7 +1586,7 @@ h1 {
     font-size: 0.66rem;
     font-weight: 650;
     line-height: 1.32;
-    text-shadow: 0 2px 12px oklch(0% 0 0 / 0.78);
+    text-shadow: none;
   }
 
   .flyer-kicker {
@@ -1621,7 +1625,7 @@ h1 {
     text-align: center;
     text-shadow: none;
     white-space: normal;
-    box-shadow: 0 14px 34px oklch(0% 0 0 / 0.36);
+    box-shadow: none;
   }
 
   .flyer-cta-stack .btn--outline {
