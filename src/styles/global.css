@@ -1510,7 +1510,8 @@ h1 {
   }
 
   .flyer-hero-mobile-bg--boi {
-    object-position: 58% 10%;
+    object-position: 86% 50%;
+    transform: none;
     animation-delay: -1.4s;
   }
 
