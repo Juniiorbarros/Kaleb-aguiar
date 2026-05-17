@@ -1524,8 +1524,7 @@ h1 {
 
   .flyer-hero::after {
     background:
-      linear-gradient(90deg, oklch(4% 0.01 36 / 0.9) 0%, oklch(5% 0.01 36 / 0.68) 42%, oklch(5% 0.01 36 / 0.04) 100%),
-      linear-gradient(0deg, oklch(5% 0.01 36 / 0.78), transparent 50%);
+      linear-gradient(0deg, oklch(5% 0.01 36 / 0.7) 0%, oklch(5% 0.01 36 / 0.46) 24%, transparent 48%);
   }
 
   .flyer-top {
