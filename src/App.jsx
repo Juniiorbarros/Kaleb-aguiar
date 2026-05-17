@@ -455,7 +455,7 @@ function LinkPage() {
             <p className="flyer-kicker">Vitrine completa</p>
             <h2>Veja a experiencia completa antes de agendar.</h2>
           </div>
-          <SmartLink href="/" className="btn btn--outline">
+          <SmartLink href="/vitrine" className="btn btn--outline">
             <span>Entrar na vitrine</span>
             <ArrowIcon />
           </SmartLink>
@@ -473,6 +473,7 @@ function LinkPage() {
 
 export function App() {
   const pathname = usePathname();
-  if (pathname === "/links") return <LinkPage />;
+  if (pathname === "/vitrine") return <ShowcasePage />;
+  if (pathname === "/" || pathname === "/links") return <LinkPage />;
   return <ShowcasePage />;
 }
