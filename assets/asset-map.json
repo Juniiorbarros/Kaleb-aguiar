@@ -1,0 +1,55 @@
+{
+    "client":  "kaleb-aguiar",
+    "updatedAt":  "2026-05-16",
+    "assets":  [
+                   {
+                       "id":  "kaleb-ai-design-reference-2026-05-16",
+                       "path":  "references/user-provided/kaleb-ai-design-reference-2026-05-16.png",
+                       "type":  "image",
+                       "status":  "saved",
+                       "purpose":  "Visual direction reference for hero composition, premium cards, gold-on-black palette and CTA hierarchy",
+                       "usage":  "reference_only"
+                   },
+                   {
+                       "id":  "teatro-amazonas-balcony-01",
+                       "path":  "references/user-provided/teatro-amazonas-balcony-01.png",
+                       "type":  "image",
+                       "status":  "pending-local-file",
+                       "purpose":  "Analyze golden dress, palace lighting, debutante/princess stage mood",
+                       "usage":  "reference_or_real_asset_after_permission"
+                   },
+                   {
+                       "id":  "teatro-amazonas-balcony-02",
+                       "path":  "references/user-provided/teatro-amazonas-balcony-02.png",
+                       "type":  "image",
+                       "status":  "pending-local-file",
+                       "purpose":  "Analyze theater balcony, depth, columns, chandeliers and cinematic framing",
+                       "usage":  "reference_or_real_asset_after_permission"
+                   },
+                   {
+                       "id":  "instagram-grid-profile-2026-05-16",
+                       "path":  "references/user-provided/instagram-grid-profile-2026-05-16.png",
+                       "type":  "image",
+                       "status":  "pending-local-file",
+                       "purpose":  "Instagram profile evidence, categories, visual inventory and social proof snapshot",
+                       "usage":  "research_reference"
+                   },
+                   {
+                       "id":  "kaleb-batch-2026-05-16",
+                       "path":  "references/user-provided/kaleb-batch-2026-05-16/raw",
+                       "manifest":  "references/user-provided/kaleb-batch-2026-05-16/manifest.json",
+                       "type":  "reference-batch",
+                       "status":  "saved",
+                       "count":  24,
+                       "purpose":  "Initial user-provided screenshots and logo for Kaleb Aguiar visual study, linkpage planning and future curation",
+                       "usage":  "reference_batch_initial"
+                   }
+               ],
+    "neededNext":  [
+                       "Official WhatsApp number",
+                       "Logo in high resolution",
+                       "Approved real dress photos",
+                       "Opening hours",
+                       "Reservation and fitting policy"
+                   ]
+}
