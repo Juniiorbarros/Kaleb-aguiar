@@ -1515,7 +1515,8 @@ h1 {
   }
 
   .flyer-hero-mobile-bg--nicole {
-    object-position: 56% 50%;
+    object-position: 86% 50%;
+    transform: none;
     animation-delay: 4.6s;
   }
 
