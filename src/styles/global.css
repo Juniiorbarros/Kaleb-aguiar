@@ -530,8 +530,10 @@ h1 {
 .flyer-page {
   display: block;
   min-height: 100svh;
-  padding: 26px 14px;
-  background: var(--black);
+  padding: 26px 14px 40px;
+  background:
+    radial-gradient(circle at 50% 0%, oklch(28% 0.05 28 / 0.2), transparent 42rem),
+    linear-gradient(180deg, oklch(5% 0.01 36), var(--black) 62%, oklch(6% 0.012 42));
 }
 
 .flyer-backdrop {
@@ -559,23 +561,24 @@ h1 {
 }
 
 .flyer-poster {
-  width: min(720px, 100%);
+  width: min(760px, 100%);
   margin: 0 auto;
-  padding: clamp(12px, 2.4vw, 22px);
-  border: 1px solid oklch(74% 0.13 82 / 0.34);
+  padding: clamp(10px, 2.1vw, 18px);
+  border: 1px solid oklch(74% 0.13 82 / 0.24);
   border-radius: 8px;
   background:
     radial-gradient(circle at 76% 4%, oklch(74% 0.13 82 / 0.14), transparent 18rem),
-    linear-gradient(180deg, oklch(9% 0.016 42), oklch(5% 0.01 36));
+    linear-gradient(180deg, oklch(10% 0.018 42), oklch(5% 0.01 36));
   box-shadow: 0 32px 100px oklch(0% 0 0 / 0.56);
 }
 
 .flyer-hero {
   position: relative;
-  min-height: clamp(490px, 64vw, 560px);
+  min-height: clamp(560px, 72vw, 660px);
   overflow: hidden;
   border-radius: 8px;
   isolation: isolate;
+  background: oklch(5% 0.01 36);
 }
 
 .flyer-hero-image {
@@ -589,8 +592,9 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 58% 18%;
-  filter: brightness(0.8) contrast(1.05) saturate(0.98);
+  object-position: 72% 18%;
+  filter: brightness(1.03) contrast(1.05) saturate(1.03);
+  transform: scale(1.015);
 }
 
 .flyer-hero::after {
@@ -599,8 +603,8 @@ h1 {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, oklch(4% 0.01 36 / 0.96) 0%, oklch(5% 0.01 36 / 0.78) 42%, oklch(5% 0.01 36 / 0.12) 100%),
-    linear-gradient(0deg, oklch(5% 0.01 36 / 0.92), transparent 42%);
+    linear-gradient(90deg, oklch(4% 0.01 36 / 0.94) 0%, oklch(5% 0.01 36 / 0.74) 34%, oklch(5% 0.01 36 / 0.08) 68%),
+    linear-gradient(0deg, oklch(5% 0.01 36 / 0.82), transparent 44%);
 }
 
 .flyer-top {
@@ -611,15 +615,50 @@ h1 {
   padding: clamp(14px, 3vw, 24px);
 }
 
-.flyer-logo,
-.flyer-logo-motion {
-  width: clamp(96px, 16vw, 158px);
-  aspect-ratio: 1;
+.kaleb-typemark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 8px 12px 8px 8px;
+  border: 1px solid oklch(74% 0.13 82 / 0.28);
+  border-radius: 999px;
+  background: oklch(5% 0.01 36 / 0.42);
+  box-shadow: 0 16px 46px oklch(0% 0 0 / 0.32);
+}
+
+.kaleb-seal {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  object-fit: cover;
-  filter: drop-shadow(0 16px 34px oklch(0% 0 0 / 0.44));
-  overflow: hidden;
-  background: oklch(4% 0.01 36 / 0.9);
+  color: oklch(12% 0.018 38);
+  background: linear-gradient(135deg, var(--gold), var(--champagne));
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.kaleb-signature strong {
+  display: block;
+  color: var(--ivory);
+  font-family: var(--serif);
+  font-size: clamp(1.04rem, 2.1vw, 1.42rem);
+  font-weight: 600;
+  line-height: 0.94;
+}
+
+.kaleb-signature em {
+  display: block;
+  margin-top: 4px;
+  color: var(--gold);
+  font-size: 0.58rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .flyer-menu {
@@ -641,8 +680,8 @@ h1 {
 }
 
 .flyer-copy {
-  width: min(430px, 68%);
-  padding: 18px clamp(14px, 3vw, 26px) clamp(22px, 4vw, 34px);
+  width: min(356px, 50%);
+  padding: clamp(12px, 2.4vw, 22px) clamp(14px, 3vw, 26px) clamp(22px, 4vw, 34px);
 }
 
 .flyer-kicker {
@@ -657,9 +696,10 @@ h1 {
 .flyer-copy h1 {
   margin: 0;
   max-width: 100%;
-  font-size: clamp(2.5rem, 6vw, 3.9rem);
-  line-height: 0.96;
+  font-size: clamp(2.45rem, 4.5vw, 3.18rem);
+  line-height: 0.91;
   text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .flyer-copy h1 span {
@@ -678,7 +718,7 @@ h1 {
   margin: 0;
   color: oklch(90% 0.02 82 / 0.88);
   font-family: var(--serif);
-  font-size: clamp(1.05rem, 2vw, 1.34rem);
+  font-size: clamp(1.08rem, 2.1vw, 1.42rem);
   line-height: 1.45;
 }
 
@@ -694,7 +734,7 @@ h1 {
 .flyer-cta-stack {
   display: grid;
   gap: 14px;
-  width: min(430px, 100%);
+  width: min(410px, 100%);
   margin-top: 24px;
 }
 
@@ -705,6 +745,21 @@ h1 {
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+
+.flyer-cta-stack .btn--primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.flyer-cta-stack .btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: -40% auto -40% -30%;
+  width: 32%;
+  background: linear-gradient(90deg, transparent, oklch(98% 0.015 82 / 0.62), transparent);
+  transform: skewX(-18deg);
+  animation: ctaLight 4.8s var(--ease) infinite;
 }
 
 .flyer-side-rail {
@@ -730,89 +785,166 @@ h1 {
   background: var(--gold);
 }
 
-.flyer-grid {
+.occasion-showcase {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: minmax(280px, 1.12fr) minmax(260px, 0.88fr);
+  gap: 14px;
   margin-top: 14px;
 }
 
-.flyer-card {
+.occasion-stage,
+.occasion-tile {
   position: relative;
-  display: grid;
-  min-height: clamp(260px, 34vw, 330px);
   overflow: hidden;
-  border: 1px solid oklch(74% 0.13 82 / 0.7);
+  border: 1px solid oklch(74% 0.13 82 / 0.44);
   border-radius: 8px;
   background: var(--black-2);
   isolation: isolate;
-  transition: transform 360ms var(--ease), border-color 360ms var(--ease);
 }
 
-.flyer-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--gold);
+.occasion-stage {
+  min-height: clamp(520px, 62vw, 680px);
 }
 
-.flyer-card img {
+.occasion-stage img,
+.occasion-tile img {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: -3;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 700ms var(--ease);
+  transition: transform 900ms var(--ease), filter 900ms var(--ease);
 }
 
-.flyer-card:hover img {
-  transform: scale(1.05);
+.occasion-stage img {
+  object-position: center 18%;
+  filter: saturate(1.06) contrast(1.04);
+  animation: sceneBreath 9s var(--ease) infinite alternate;
 }
 
-.flyer-card-shade {
+.occasion-stage-shade {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   background:
-    radial-gradient(circle at 50% 46%, transparent 0 5rem, oklch(5% 0.01 36 / 0.18) 9rem),
-    linear-gradient(0deg, oklch(5% 0.01 36 / 0.88), transparent 62%);
+    radial-gradient(circle at 60% 22%, transparent 0 9rem, oklch(5% 0.01 36 / 0.08) 18rem),
+    linear-gradient(0deg, oklch(5% 0.01 36 / 0.86), transparent 52%);
 }
 
-.flyer-card-copy {
-  align-self: end;
-  min-width: 0;
-  padding: 0 12px 24px;
-  text-align: center;
+.occasion-stage::after,
+.occasion-tile::after {
+  content: "";
+  position: absolute;
+  inset: auto 12% 18px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent, var(--gold)), transparent);
+  opacity: 0.9;
 }
 
-.flyer-card-copy em {
-  display: block;
-  color: var(--ivory);
-  font-family: var(--serif);
-  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+.occasion-stage-copy {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 30px;
+}
+
+.occasion-stage-copy span,
+.occasion-tile-copy em {
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 800;
   font-style: normal;
-  line-height: 1.1;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
-.flyer-card-copy strong {
+.occasion-stage-copy h2 {
+  margin: 10px 0 12px;
+  color: var(--ivory);
+  font-size: clamp(2.45rem, 4.7vw, 3.72rem);
+  line-height: 0.86;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.occasion-stage-copy p {
+  max-width: 420px;
+  margin: 0;
+  color: oklch(88% 0.02 82 / 0.84);
+  line-height: 1.58;
+}
+
+.occasion-stage-copy a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.occasion-rail {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.occasion-tile {
+  min-height: clamp(164px, 20vw, 218px);
+  animation: riseIn 780ms var(--ease) both;
+  animation-delay: var(--delay);
+  transition: transform 360ms var(--ease), border-color 360ms var(--ease), box-shadow 360ms var(--ease);
+}
+
+.occasion-tile img {
+  filter: brightness(0.82) saturate(0.96);
+}
+
+.occasion-tile:hover,
+.occasion-tile:focus-visible,
+.occasion-tile.is-active {
+  transform: translateY(-4px);
+  border-color: var(--accent, var(--gold));
+  box-shadow: 0 20px 60px oklch(0% 0 0 / 0.42), inset 0 0 0 1px oklch(94% 0.018 82 / 0.12);
+}
+
+.occasion-tile:hover img,
+.occasion-tile:focus-visible img,
+.occasion-tile.is-active img {
+  transform: scale(1.07);
+  filter: brightness(1.02) saturate(1.07);
+}
+
+.occasion-tile-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 50% 30%, oklch(74% 0.13 82 / 0.14), transparent 8rem),
+    linear-gradient(0deg, oklch(5% 0.01 36 / 0.88), transparent 58%);
+}
+
+.occasion-tile-copy {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 16px;
+  text-align: center;
+}
+
+.occasion-tile-copy strong {
   display: block;
   margin-top: 4px;
   color: var(--ivory);
   font-family: var(--serif);
-  font-size: clamp(1.28rem, 2.05vw, 1.8rem);
+  font-size: clamp(0.84rem, 1.42vw, 1.12rem);
   font-weight: 500;
-  line-height: 0.98;
+  line-height: 0.92;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
   text-shadow: 0 4px 18px oklch(0% 0 0 / 0.72);
-}
-
-.flyer-card-copy i {
-  display: block;
-  width: 42px;
-  height: 2px;
-  margin: 18px auto 0;
-  background: var(--gold);
 }
 
 .flyer-feature-bar {
@@ -912,6 +1044,23 @@ h1 {
   font-size: clamp(1.7rem, 4vw, 2.8rem);
 }
 
+.flyer-location > p {
+  margin: -4px 0 16px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+@keyframes ctaLight {
+  0%, 42% { transform: translateX(0) skewX(-18deg); opacity: 0; }
+  52% { opacity: 0.76; }
+  72%, 100% { transform: translateX(430%) skewX(-18deg); opacity: 0; }
+}
+
+@keyframes sceneBreath {
+  from { transform: scale(1.01); }
+  to { transform: scale(1.055); }
+}
+
 @media (max-width: 760px) {
   .flyer-page {
     padding: 10px;
@@ -922,27 +1071,42 @@ h1 {
   }
 
   .flyer-hero {
-    min-height: 510px;
+    min-height: 620px;
   }
 
   .flyer-hero-image img,
   .flyer-hero-image video {
-    object-position: 58% 10%;
+    object-position: 70% 10%;
+    transform: translateX(7%) scale(1.08);
   }
 
   .flyer-hero::after {
     background:
-      linear-gradient(90deg, oklch(4% 0.01 36 / 0.94) 0%, oklch(5% 0.01 36 / 0.82) 48%, oklch(5% 0.01 36 / 0.26) 100%),
-      linear-gradient(0deg, oklch(5% 0.01 36 / 0.92), transparent 52%);
+      linear-gradient(90deg, oklch(4% 0.01 36 / 0.94) 0%, oklch(5% 0.01 36 / 0.78) 44%, oklch(5% 0.01 36 / 0.14) 100%),
+      linear-gradient(0deg, oklch(5% 0.01 36 / 0.88), transparent 50%);
   }
 
   .flyer-top {
     padding: 16px;
   }
 
-  .flyer-logo,
-  .flyer-logo-motion {
-    width: 126px;
+  .kaleb-typemark {
+    gap: 9px;
+    padding: 7px 10px 7px 7px;
+  }
+
+  .kaleb-seal {
+    width: 36px;
+    height: 36px;
+    font-size: 0.86rem;
+  }
+
+  .kaleb-signature strong {
+    font-size: 1rem;
+  }
+
+  .kaleb-signature em {
+    font-size: 0.48rem;
   }
 
   .flyer-menu {
@@ -951,13 +1115,13 @@ h1 {
   }
 
   .flyer-copy {
-    width: 86%;
+    width: 82%;
     padding: 14px 16px 22px;
   }
 
   .flyer-copy h1 {
-    font-size: clamp(2rem, 8.7vw, 3.05rem);
-    line-height: 0.98;
+    font-size: clamp(2.3rem, 10vw, 3.45rem);
+    line-height: 0.92;
   }
 
   .flyer-copy > p:not(.flyer-kicker) {
@@ -971,26 +1135,37 @@ h1 {
     font-size: 0.62rem;
   }
 
-  .flyer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+  .occasion-showcase {
+    grid-template-columns: 1fr;
     margin-top: 12px;
   }
 
-  .flyer-card {
+  .occasion-stage {
+    min-height: 500px;
+  }
+
+  .occasion-stage-copy {
+    padding: 22px;
+  }
+
+  .occasion-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .occasion-tile {
     min-height: 238px;
   }
 
-  .flyer-card-copy {
+  .occasion-tile-copy {
     padding: 0 10px 18px;
   }
 
-  .flyer-card-copy em {
-    font-size: 0.78rem;
+  .occasion-tile-copy em {
+    font-size: 0.68rem;
   }
 
-  .flyer-card-copy strong {
-    font-size: clamp(1.05rem, 5vw, 1.28rem);
+  .occasion-tile-copy strong {
+    font-size: clamp(1.08rem, 5vw, 1.36rem);
   }
 
   .flyer-feature-bar {
@@ -1031,7 +1206,7 @@ h1 {
 
 @media (max-width: 420px) {
   .flyer-copy {
-    width: 94%;
+    width: 88%;
   }
 
   .flyer-cta-stack .btn {
@@ -1041,5 +1216,12 @@ h1 {
 
   .flyer-side-rail {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .occasion-stage img,
+  .flyer-cta-stack .btn--primary::after {
+    animation: none !important;
   }
 }

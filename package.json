@@ -10,8 +10,10 @@
                     "motion:studio":  "remotion studio remotion/index.jsx --port 4101",
                     "motion:still:logo":  "remotion still remotion/index.jsx KalebLogoReveal public/assets/kaleb-aguiar/motion-logo-still.png --frame=45 --image-format=png",
                     "motion:still:flyer":  "remotion still remotion/index.jsx KalebFlyerMotion public/assets/kaleb-aguiar/motion-flyer-still.png --frame=75 --image-format=png",
+                    "motion:still:linkhero":  "remotion still remotion/index.jsx KalebLinkHeroEditorial public/assets/kaleb-aguiar/link-hero-editorial-poster.png --frame=70 --image-format=png",
                     "motion:still:icon":  "remotion still remotion/index.jsx KalebIconSpark public/assets/kaleb-aguiar/motion-icon-spark.png --frame=45 --image-format=png",
                     "motion:render:flyer":  "remotion render remotion/index.jsx KalebFlyerMotion public/assets/kaleb-aguiar/kaleb-flyer-motion.mp4 --codec=h264 --crf=28",
+                    "motion:render:linkhero":  "remotion render remotion/index.jsx KalebLinkHeroEditorial public/assets/kaleb-aguiar/kaleb-link-hero-editorial.mp4 --codec=h264 --crf=27",
                     "motion:render:logo":  "remotion render remotion/index.jsx KalebLogoReveal public/assets/kaleb-aguiar/kaleb-logo-reveal.mp4 --codec=h264 --crf=24",
                     "motion:render:icon":  "remotion render remotion/index.jsx KalebIconSpark public/assets/kaleb-aguiar/motion-icon-spark.webm --image-format=png --pixel-format=yuva420p --codec=vp9"
                 },

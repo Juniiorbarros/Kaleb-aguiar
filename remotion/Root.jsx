@@ -3,6 +3,7 @@ import { Composition, Folder } from "remotion";
 import { KalebLogoReveal } from "./src/KalebLogoReveal.jsx";
 import { KalebFlyerMotion } from "./src/KalebFlyerMotion.jsx";
 import { KalebIconSpark } from "./src/KalebIconSpark.jsx";
+import { KalebLinkHeroEditorial } from "./src/KalebLinkHeroEditorial.jsx";
 
 export const RemotionRoot = () => {
   return (
@@ -18,6 +19,14 @@ export const RemotionRoot = () => {
       <Composition
         id="KalebFlyerMotion"
         component={KalebFlyerMotion}
+        durationInFrames={240}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="KalebLinkHeroEditorial"
+        component={KalebLinkHeroEditorial}
         durationInFrames={240}
         fps={30}
         width={1080}

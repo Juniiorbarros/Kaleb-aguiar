@@ -52,6 +52,18 @@ function BrandMark({ compact = false }) {
   );
 }
 
+function KalebTypemark({ compact = false }) {
+  return (
+    <SmartLink href="/" className={`kaleb-typemark ${compact ? "kaleb-typemark--compact" : ""}`} aria-label="Kaleb Aguiar">
+      <span className="kaleb-seal">KA</span>
+      <span className="kaleb-signature">
+        <strong>Kaleb Aguiar</strong>
+        <em>Designer de moda</em>
+      </span>
+    </SmartLink>
+  );
+}
+
 function CtaButton({ context = "agendar prova", children = "Agendar minha prova", variant = "primary" }) {
   return (
     <SmartLink href={buildReservationUrl(context)} className={`btn btn--${variant}`} aria-label={`${children} pelo Instagram`}>
@@ -267,12 +279,55 @@ function LinkAction({ item }) {
   );
 }
 
+function OccasionShowcase({ items }) {
+  const [activeId, setActiveId] = React.useState(items[0]?.id);
+  const active = items.find((item) => item.id === activeId) || items[0];
+
+  return (
+    <section className="occasion-showcase" id="flyer-estilos" aria-label="Escolher estilo de vestido">
+      <div className="occasion-stage">
+        <img src={active.image} alt={active.title} loading="eager" />
+        <div className="occasion-stage-shade" aria-hidden="true" />
+        <div className="occasion-stage-copy">
+          <span>{active.eyebrow}</span>
+          <h2>{active.label}</h2>
+          <p>{active.body}</p>
+          <SmartLink href={buildReservationUrl(active.label)}>
+            {active.title}
+            <ArrowIcon />
+          </SmartLink>
+        </div>
+      </div>
+      <div className="occasion-rail" role="list">
+        {items.map((item, index) => (
+          <SmartLink
+            key={item.id}
+            href={buildReservationUrl(item.label)}
+            className={`occasion-tile ${item.id === active.id ? "is-active" : ""}`}
+            style={{ "--accent": item.accent, "--delay": `${index * 55}ms` }}
+            onMouseEnter={() => setActiveId(item.id)}
+            onFocus={() => setActiveId(item.id)}
+            aria-label={`${item.title} pelo Instagram`}
+            role="listitem"
+          >
+            <img src={item.image} alt="" loading={index < 3 ? "eager" : "lazy"} />
+            <span className="occasion-tile-glow" aria-hidden="true" />
+            <span className="occasion-tile-copy">
+              <em>{item.eyebrow}</em>
+              <strong>{item.label}</strong>
+            </span>
+          </SmartLink>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function LinkPage() {
   React.useEffect(() => {
     document.title = "Kaleb Aguiar | Links";
   }, []);
 
-  const flyerLinks = clientConfig.categories;
   const features = [
     ["Atelie", "sob medida"],
     ["Tecidos", "premium"],
@@ -289,8 +344,8 @@ function LinkPage() {
         <section className="flyer-hero">
           <div className="flyer-hero-image" aria-hidden="true">
             <video
-              src="/assets/kaleb-aguiar/kaleb-flyer-motion.mp4"
-              poster="/assets/kaleb-aguiar/motion-flyer-still.png"
+              src="/assets/kaleb-aguiar/kaleb-link-hero-editorial.mp4"
+              poster="/assets/kaleb-aguiar/link-hero-editorial-poster.png"
               autoPlay
               muted
               loop
@@ -300,17 +355,7 @@ function LinkPage() {
           </div>
 
           <header className="flyer-top">
-            <video
-              className="flyer-logo-motion"
-              src="/assets/kaleb-aguiar/kaleb-logo-reveal.mp4"
-              poster="/assets/kaleb-aguiar/motion-logo-still.png"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label="Kaleb Aguiar"
-            />
+            <KalebTypemark />
             <SmartLink href={clientConfig.instagramUrl} className="flyer-menu" aria-label="Abrir Instagram Kaleb Aguiar">
               <span />
               <span />
@@ -319,11 +364,10 @@ function LinkPage() {
           </header>
 
           <div className="flyer-copy">
-            <p className="flyer-kicker">Designer de moda</p>
+            <p className="flyer-kicker">Atelie em Manaus</p>
             <h1>Vestidos que <span>transformam</span> ocasioes em <span>memoria</span></h1>
             <i className="flyer-divider" aria-hidden="true" />
             <p>Escolha sua ocasiao e agende uma prova com atendimento sob medida.</p>
-            <small>{clientConfig.contactNote}</small>
             <div className="flyer-cta-stack">
               <CtaButton context="linkpage flyer principal">Reservar meu vestido</CtaButton>
               <a className="btn btn--outline" href="#flyer-estilos">
@@ -340,9 +384,7 @@ function LinkPage() {
           </aside>
         </section>
 
-        <nav className="flyer-grid" id="flyer-estilos" aria-label="Escolher estilo de vestido">
-          {flyerLinks.map((item) => <LinkAction key={item.id} item={item} />)}
-        </nav>
+        <OccasionShowcase items={clientConfig.categories} />
 
         <section className="flyer-feature-bar" aria-label="Diferenciais do atelie">
           {features.map(([top, bottom]) => (
@@ -376,6 +418,7 @@ function LinkPage() {
 
         <section className="flyer-location">
           <h2>Como chegar ao atelie</h2>
+          <p>{clientConfig.contactNote}</p>
           <LocationActions compact />
         </section>
       </article>
