@@ -1511,15 +1511,15 @@ h1 {
     animation-delay: 10.6s;
   }
 
-  .flyer-hero-mobile-bg--boi {
+  .flyer-hero-image .flyer-hero-mobile-bg--boi {
     object-position: 100% 50%;
-    transform: scale(1.7);
+    transform: none;
     animation-delay: -1.4s;
   }
 
-  .flyer-hero-mobile-bg--nicole {
+  .flyer-hero-image .flyer-hero-mobile-bg--nicole {
     object-position: 100% 50%;
-    transform: scale(1.7);
+    transform: none;
     animation-delay: 4.6s;
   }
 
