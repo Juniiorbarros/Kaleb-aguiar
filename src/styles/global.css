@@ -1569,7 +1569,7 @@ h1 {
 
   .flyer-copy h1 {
     max-width: 248px;
-    font-size: clamp(1.24rem, 5.7vw, 1.64rem);
+    font-size: clamp(1.12rem, 5.2vw, 1.48rem);
     line-height: 1;
   }
 
@@ -1577,7 +1577,7 @@ h1 {
     position: absolute;
     left: 14px;
     right: 14px;
-    bottom: 135px;
+    bottom: 124px;
     z-index: 3;
     max-width: none;
     margin: 0;
@@ -1604,7 +1604,7 @@ h1 {
     position: absolute;
     left: 14px;
     right: 14px;
-    bottom: 100px;
+    bottom: 88px;
     z-index: 3;
     width: auto;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1646,7 +1646,7 @@ h1 {
     position: absolute;
     left: 14px;
     right: 14px;
-    bottom: 75px;
+    bottom: 62px;
     z-index: 3;
     width: auto;
     display: flex;
@@ -1683,7 +1683,7 @@ h1 {
 
   .flyer-scroll-cue {
     display: inline-flex;
-    bottom: 24px;
+    bottom: 14px;
     width: 30px;
     height: 30px;
   }
