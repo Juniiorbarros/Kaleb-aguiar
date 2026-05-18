@@ -29,7 +29,7 @@ export const clientConfig = {
   },
   links: {
     maps: "https://www.google.com/maps/search/?api=1&query=Rua%20Rio%20Purus%2C%201078%2C%20Vieiralves%2C%20Manaus%20AM%2069053-050",
-    uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[nickname]=Kaleb%20Aguiar%20Atelie&dropoff[formatted_address]=Rua%20Rio%20Purus%2C%201078%20-%20Quadra%2025%2C%20Conj.%20Vieiralves%2C%20Nossa%20Senhora%20das%20Gracas%2C%20Manaus%20-%20AM%2C%2069053-050",
+    uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=-3.1071200&dropoff[longitude]=-60.0211834&dropoff[nickname]=Kaleb%20Aguiar%20Atelie&dropoff[formatted_address]=Rua%20Rio%20Purus%2C%201078%20-%20Vieiralves%2C%20Manaus%20-%20AM%2C%2069053-050",
   },
   categories: [
     {
