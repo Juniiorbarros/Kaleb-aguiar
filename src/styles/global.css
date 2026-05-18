@@ -1820,7 +1820,7 @@ h1 {
   }
 
   .occasion-tile {
-    min-height: 70px;
+    min-height: 78px;
     box-shadow: 0 14px 34px oklch(0% 0 0 / 0.36);
   }
 
@@ -1840,18 +1840,18 @@ h1 {
   }
 
   .occasion-tile-copy {
-    padding: 0 3px 8px;
+    padding: 0 4px 9px;
   }
 
   .occasion-tile-copy em {
-    font-size: 0.34rem;
-    letter-spacing: 0.09em;
+    font-size: 0.4rem;
+    letter-spacing: 0.07em;
   }
 
   .occasion-tile-copy strong {
-    margin-top: 2px;
-    font-size: clamp(0.46rem, 2.25vw, 0.62rem);
-    line-height: 0.86;
+    margin-top: 3px;
+    font-size: clamp(0.54rem, 2.7vw, 0.72rem);
+    line-height: 0.9;
   }
 
   .flyer-feature-bar {
