@@ -779,6 +779,7 @@ h1 {
 
 .flyer-hero-image video {
   z-index: -1;
+  display: none;
   pointer-events: none;
 }
 

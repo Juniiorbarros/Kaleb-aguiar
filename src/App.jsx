@@ -381,7 +381,7 @@ function LinkPage() {
       <article className="flyer-poster" aria-label="Linkpage premium Kaleb Aguiar">
         <section className="flyer-hero">
           <div className="flyer-hero-image" aria-hidden="true">
-            <img className="flyer-hero-poster" src="/assets/kaleb-aguiar/link-hero-editorial-poster.png" alt="" />
+            <img className="flyer-hero-poster" src="/assets/kaleb-aguiar/hero-section-red-crown-final.png" alt="" />
             <img className="flyer-hero-mobile-bg flyer-hero-mobile-bg--boi" src={clientConfig.assets.heroMobileBoi} alt="" />
             <img className="flyer-hero-mobile-bg flyer-hero-mobile-bg--nicole" src={clientConfig.assets.heroMobileNicole} alt="" />
             <video
