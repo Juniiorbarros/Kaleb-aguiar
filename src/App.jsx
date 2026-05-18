@@ -403,7 +403,12 @@ function LinkPage() {
 
           <div className="flyer-copy">
             <p className="flyer-kicker">Atelie em Manaus</p>
-            <h1>Vestidos que <span>transformam</span> ocasioes em <span>memoria</span></h1>
+            <h1>
+              Vestidos que<br />
+              <span>transformam</span><br />
+              ocasioes em<br />
+              <span>memoria</span>
+            </h1>
             <i className="flyer-divider" aria-hidden="true" />
             <p className="flyer-support-copy">Escolha sua ocasiao e agende uma prova com atendimento sob medida.</p>
             <div className="flyer-cta-stack">
