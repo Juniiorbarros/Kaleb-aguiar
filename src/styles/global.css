@@ -871,7 +871,7 @@ h1 {
 
 .flyer-copy {
   width: min(356px, 50%);
-  padding: clamp(12px, 2.4vw, 22px) clamp(14px, 3vw, 26px) clamp(22px, 4vw, 34px);
+  padding: clamp(72px, 7vw, 86px) clamp(14px, 3vw, 26px) clamp(22px, 4vw, 34px);
 }
 
 .flyer-kicker {
@@ -928,13 +928,63 @@ h1 {
   margin-top: 24px;
 }
 
+.flyer-social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.flyer-social-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid oklch(88% 0.055 82 / 0.24);
+  border-radius: 50%;
+  color: var(--champagne);
+  background:
+    radial-gradient(circle at 34% 22%, oklch(94% 0.018 82 / 0.18), transparent 44%),
+    oklch(8% 0.014 36 / 0.68);
+  box-shadow: 0 14px 34px oklch(0% 0 0 / 0.28);
+  transition: transform 240ms var(--ease), border-color 240ms var(--ease), color 240ms var(--ease), box-shadow 240ms var(--ease);
+}
+
+.flyer-social-link span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.flyer-social-link:hover,
+.flyer-social-link:focus-visible {
+  color: oklch(12% 0.018 38);
+  border-color: oklch(88% 0.055 82 / 0.72);
+  background: linear-gradient(135deg, var(--gold), var(--champagne));
+  box-shadow: 0 18px 44px oklch(74% 0.13 82 / 0.26);
+  transform: translateY(-3px) scale(1.12);
+}
+
+.flyer-social-link:active {
+  transform: scale(0.94);
+}
+
 .flyer-cta-stack .btn {
   width: 100%;
   min-height: 56px;
+  padding: 0 18px;
   border-radius: 8px;
   font-weight: 800;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.11em;
+  line-height: 1.14;
+  text-align: center;
   text-transform: uppercase;
+  white-space: normal;
 }
 
 .flyer-cta-stack .btn--primary {
@@ -1613,6 +1663,15 @@ h1 {
     margin-top: 0;
   }
 
+  .flyer-social-links {
+    gap: 9px;
+  }
+
+  .flyer-social-link {
+    width: 38px;
+    height: 38px;
+  }
+
   .flyer-cta-stack .btn {
     min-width: 0;
     min-height: 40px;
@@ -1935,6 +1994,11 @@ h1 {
     letter-spacing: 0.038em;
     font-size: 0.62rem;
     gap: 8px;
+  }
+
+  .flyer-social-link {
+    width: 36px;
+    height: 36px;
   }
 
   .flyer-proof-strip {

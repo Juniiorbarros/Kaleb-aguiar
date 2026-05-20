@@ -1,6 +1,6 @@
 import React from "react";
 import { clientConfig, buildReservationUrl } from "./config/client.config.js";
-import { ArrowIcon, CopyIcon, CrownIcon, PinIcon } from "./components/Icons.jsx";
+import { ArrowIcon, CopyIcon, CrownIcon, FacebookIcon, InstagramIcon, PinIcon, WhatsAppIcon } from "./components/Icons.jsx";
 
 function usePathname() {
   const [pathname, setPathname] = React.useState(() => window.location.pathname || "/");
@@ -68,10 +68,29 @@ function KalebTypemark({ compact = false }) {
 
 function CtaButton({ context = "visita sem compromisso", children = "Visite sem compromisso", variant = "primary" }) {
   return (
-    <SmartLink href={buildReservationUrl(context)} className={`btn btn--${variant}`} aria-label={`${children} pelo Instagram`}>
+    <SmartLink href={buildReservationUrl(context)} className={`btn btn--${variant}`} aria-label={`${children} pelo WhatsApp`}>
       <CrownIcon />
       <span>{children}</span>
     </SmartLink>
+  );
+}
+
+function SocialLinks() {
+  const items = [
+    ["Facebook", clientConfig.facebookUrl, FacebookIcon],
+    ["Instagram", clientConfig.instagramUrl, InstagramIcon],
+    ["WhatsApp", clientConfig.whatsappUrl, WhatsAppIcon],
+  ];
+
+  return (
+    <nav className="flyer-social-links" aria-label="Redes sociais do Atelier Kaleb Aguiar">
+      {items.map(([label, href, Icon]) => (
+        <SmartLink key={label} href={href} className="flyer-social-link" aria-label={`Abrir ${label} do Atelier Kaleb Aguiar`} title={label}>
+          <Icon />
+          <span>{label}</span>
+        </SmartLink>
+      ))}
+    </nav>
   );
 }
 
@@ -269,7 +288,7 @@ function ShowcasePage() {
 
 function LinkAction({ item }) {
   return (
-    <SmartLink href={buildReservationUrl(item.label)} className="flyer-card" style={{ "--accent": item.accent }} aria-label={`${item.title} pelo Instagram`}>
+    <SmartLink href={buildReservationUrl(item.label)} className="flyer-card" style={{ "--accent": item.accent }} aria-label={`${item.title} pelo WhatsApp`}>
       <img src={item.image} alt={item.title} loading="lazy" />
       <span className="flyer-card-shade" aria-hidden="true" />
       <span className="flyer-card-copy">
@@ -412,6 +431,7 @@ function LinkPage() {
             <i className="flyer-divider" aria-hidden="true" />
             <p className="flyer-support-copy">Conheca os modelos, tire duvidas e visite o atelie sem compromisso antes de decidir.</p>
             <div className="flyer-cta-stack">
+              <SocialLinks />
               <CtaButton context="linkpage principal">Visite o atelie sem compromisso</CtaButton>
               <a className="btn btn--outline" href="#flyer-estilos">
                 <span>Ver vestidos disponiveis</span>

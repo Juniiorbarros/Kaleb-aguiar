@@ -2,7 +2,7 @@
 
 ## Produto
 
-Projeto digital premium para Atelier Kaleb Aguiar, designer de moda em Manaus. A entrega une uma linkpage de alto impacto para Instagram e uma vitrine completa para apresentar aluguel exclusivo, atendimento sob medida e vestidos para ocasioes especiais.
+Projeto digital premium para Atelier Kaleb Aguiar, designer de moda em Manaus. A entrega une uma linkpage de alto impacto para WhatsApp e uma vitrine completa para apresentar aluguel exclusivo, atendimento sob medida e vestidos para ocasioes especiais.
 
 ## Publico
 
@@ -25,7 +25,7 @@ A marca deve parecer casa de moda e atelie de cena, nao loja comum de aluguel. O
 - A imagem real do vestido vem antes do ornamento.
 - O luxo deve aparecer por composicao, luz, material, tipografia e ritmo, nao por dourado exagerado.
 - A linkpage deve parecer uma mini vitrine, com acao rapida e imersao suficiente para elevar a percepcao.
-- O contato continua pelo Instagram ate confirmacao do WhatsApp oficial.
+- O contato principal acontece pelo WhatsApp oficial.
 - Imagens geradas podem apoiar atmosfera, mas nunca fingir produto real do atelie.
 
 ## Anti-referencias

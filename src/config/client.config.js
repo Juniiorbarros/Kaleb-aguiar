@@ -5,12 +5,14 @@ export const clientConfig = {
   descriptor: "Designer de moda",
   handle: "@kaleb_aguiar",
   instagramUrl: "https://www.instagram.com/kaleb_aguiar/",
-  fallbackContactUrl: "https://www.instagram.com/kaleb_aguiar/",
-  phoneDisplay: "WhatsApp a confirmar",
-  contactMode: "instagram",
-  contactNote: "Atendimento inicial pelo Instagram. Voce pode tirar duvidas e visitar o atelie sem compromisso antes de decidir.",
+  facebookUrl: "https://www.facebook.com/p/Kaleb-Aguiar-100063493009146/",
+  whatsappUrl: "https://wa.me/5592993509850",
+  fallbackContactUrl: "https://wa.me/5592993509850",
+  phoneDisplay: "+55 92 99350-9850",
+  contactMode: "whatsapp",
+  contactNote: "Atendimento inicial pelo WhatsApp. Voce pode tirar duvidas e visitar o atelie sem compromisso antes de decidir.",
   city: "Manaus, AM",
-  address: "Rua Rio Purus, 1078, Vieiralves, Manaus - AM, 69053-050",
+  address: "Rua Rio Purus, 1078 - Vieiralves, Manaus - AM",
   addressShort: "Rua Rio Purus, 1078 - Vieiralves",
   promise: "Reserve o vestido da sua grande entrada.",
   positioning: "Aluguel exclusivo para debutantes, madrinhas e formandas em Manaus. Conheca os modelos, tire duvidas e visite o atelie sem compromisso antes de decidir.",
@@ -28,8 +30,8 @@ export const clientConfig = {
     silver: image("vestido-prata-noite.png"),
   },
   links: {
-    maps: "https://www.google.com/maps/search/?api=1&query=Rua%20Rio%20Purus%2C%201078%2C%20Vieiralves%2C%20Manaus%20AM%2069053-050",
-    uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=-3.1071200&dropoff[longitude]=-60.0211834&dropoff[nickname]=Atelier%20Kaleb%20Aguiar&dropoff[formatted_address]=Rua%20Rio%20Purus%2C%201078%20-%20Vieiralves%2C%20Manaus%20-%20AM%2C%2069053-050",
+    maps: "https://www.google.com/maps/search/?api=1&query=Rua%20Rio%20Purus%2C%201078%20-%20Vieiralves%2C%20Manaus%20-%20AM",
+    uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=-3.1071200&dropoff[longitude]=-60.0211834&dropoff[nickname]=Atelier%20Kaleb%20Aguiar&dropoff[formatted_address]=Rua%20Rio%20Purus%2C%201078%20-%20Vieiralves%2C%20Manaus%20-%20AM",
   },
   categories: [
     {
@@ -99,5 +101,5 @@ export function buildReservationUrl(context = "") {
   const message = context
     ? `Ola, Atelier Kaleb Aguiar. Vim pelo site e quero conhecer os vestidos sem compromisso. Tenho interesse em: ${context}.`
     : "Ola, Atelier Kaleb Aguiar. Vim pelo site e quero conhecer os vestidos sem compromisso.";
-  return `${clientConfig.instagramUrl}?utm_source=site&utm_medium=cta&utm_campaign=${encodeURIComponent(message)}`;
+  return `${clientConfig.whatsappUrl}?text=${encodeURIComponent(message)}`;
 }

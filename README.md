@@ -5,7 +5,7 @@ App React/Vite para vitrine premium e linkpage premium.
 Rotas:
 
 - `/` vitrine cinematografica.
-- `/links` linkpage premium para Instagram, WhatsApp, categorias e localizacao.
+- `/links` linkpage premium para WhatsApp, categorias e localizacao.
 
 Comandos:
 
