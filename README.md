@@ -1,4 +1,4 @@
-# Cliente Kaleb Aguiar
+# Cliente Atelier Kaleb Aguiar
 
 App React/Vite para vitrine premium e linkpage premium.
 

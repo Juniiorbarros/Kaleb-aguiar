@@ -42,10 +42,10 @@ function SmartLink({ href, children, className = "", ...props }) {
 
 function BrandMark({ compact = false }) {
   return (
-    <SmartLink href="/" className={`brand-mark ${compact ? "brand-mark--compact" : ""}`} aria-label="Kaleb Aguiar">
+    <SmartLink href="/" className={`brand-mark ${compact ? "brand-mark--compact" : ""}`} aria-label="Atelier Kaleb Aguiar">
       <img src={clientConfig.assets.logo} alt="" />
       <span>
-        <strong>Kaleb Aguiar</strong>
+        <strong>Atelier Kaleb Aguiar</strong>
         {!compact && <em>Designer de moda</em>}
       </span>
     </SmartLink>
@@ -54,19 +54,19 @@ function BrandMark({ compact = false }) {
 
 function KalebTypemark({ compact = false }) {
   return (
-    <SmartLink href="/" className={`kaleb-typemark ${compact ? "kaleb-typemark--compact" : ""}`} aria-label="Kaleb Aguiar">
+    <SmartLink href="/" className={`kaleb-typemark ${compact ? "kaleb-typemark--compact" : ""}`} aria-label="Atelier Kaleb Aguiar">
       <span className="kaleb-seal">
         <img src={clientConfig.assets.logo} alt="" />
       </span>
       <span className="kaleb-signature">
-        <strong>Kaleb Aguiar</strong>
+        <strong>Atelier Kaleb Aguiar</strong>
         <em>Designer de moda</em>
       </span>
     </SmartLink>
   );
 }
 
-function CtaButton({ context = "agendar prova", children = "Agendar minha prova", variant = "primary" }) {
+function CtaButton({ context = "visita sem compromisso", children = "Visite sem compromisso", variant = "primary" }) {
   return (
     <SmartLink href={buildReservationUrl(context)} className={`btn btn--${variant}`} aria-label={`${children} pelo Instagram`}>
       <CrownIcon />
@@ -115,7 +115,7 @@ function SiteNav() {
         <a href="#localizacao">Como chegar</a>
         <SmartLink href="/links">Linkpage</SmartLink>
       </nav>
-      <CtaButton context="prova pelo menu" variant="nav">Agendar prova</CtaButton>
+      <CtaButton context="menu principal" variant="nav">Visitar sem compromisso</CtaButton>
     </header>
   );
 }
@@ -138,12 +138,12 @@ function Hero() {
             <ArrowIcon />
           </a>
         </div>
-        <div className="proof-row" aria-label="Provas sociais">
+        <div className="proof-row" aria-label="Diferenciais do atelie">
           {clientConfig.proof.map((item) => <span key={item}>{item}</span>)}
         </div>
       </div>
       <aside className="hero-card" aria-label="Resumo do atelie">
-        <span>Prova com horario marcado</span>
+        <span>Visita com atendimento</span>
         <strong>Escolha sua ocasiao e fale com o atelie antes de ir.</strong>
         <small>{clientConfig.addressShort}</small>
       </aside>
@@ -174,8 +174,8 @@ function CategoriesSection() {
     <section className="section categories" id="ocasioes">
       <div className="section-head">
         <p className="kicker">Escolha por ocasiao</p>
-        <h2>Encontre o vestido certo antes da prova.</h2>
-        <p>Veja a categoria que combina com sua data e chame o atendimento com um pedido claro. O atelie te orienta nos modelos, cores e disponibilidade.</p>
+        <h2>Encontre o vestido certo antes de decidir.</h2>
+        <p>Veja a categoria que combina com sua data e chame o atendimento sem compromisso. O atelie te orienta sobre modelos, cores e disponibilidade.</p>
       </div>
       <div className="category-grid">
         {clientConfig.categories.map((item, index) => <CategoryCard key={item.id} item={item} index={index} />)}
@@ -189,8 +189,8 @@ function AtelierSection() {
     <section className="section atelier" id="atelier">
       <div className="atelier-copy">
         <p className="kicker">Como reservar</p>
-        <h2>Agende a prova com uma ideia clara do que voce quer.</h2>
-        <p>O atendimento fica mais rapido quando voce chega com ocasiao, data, estilo e referencias. A vitrine guia esse primeiro contato e leva voce direto para a reserva.</p>
+        <h2>Conheca os modelos com uma ideia clara do que voce quer.</h2>
+        <p>O atendimento fica mais rapido quando voce chega com ocasiao, data, estilo e referencias. A vitrine guia esse primeiro contato e ajuda voce a visitar sem compromisso.</p>
         <div className="process-list">
           {clientConfig.process.map(([number, title, body]) => (
             <article key={number}>
@@ -227,7 +227,7 @@ function LocationSection() {
   return (
     <section className="section location" id="localizacao">
       <div>
-        <p className="kicker">Prova presencial</p>
+        <p className="kicker">Visita presencial</p>
         <h2>Chegue ao atelie sem perder tempo.</h2>
         <p>Abra a rota no mapa, chame Uber ou copie o endereco para a 99. A decisao do vestido continua no atendimento.</p>
       </div>
@@ -240,16 +240,16 @@ function FinalCta() {
   return (
     <section className="final-cta">
       <BrandMark />
-      <h2>Quer provar um vestido para sua data?</h2>
-      <p>Chame o atelie, informe sua ocasiao e agende um horario.</p>
-      <CtaButton context="cta final">Agendar minha prova</CtaButton>
+      <h2>Quer conhecer vestidos para sua data?</h2>
+      <p>Chame o atelie, informe sua ocasiao e tire duvidas antes de decidir.</p>
+      <CtaButton context="cta final">Visitar sem compromisso</CtaButton>
     </section>
   );
 }
 
 function ShowcasePage() {
   React.useEffect(() => {
-    document.title = "Kaleb Aguiar | Vitrine Premium";
+    document.title = "Atelier Kaleb Aguiar | Vitrine Premium";
   }, []);
 
   return (
@@ -363,7 +363,7 @@ function OccasionShowcase({ items }) {
 
 function LinkPage() {
   React.useEffect(() => {
-    document.title = "Kaleb Aguiar | Links";
+    document.title = "Atelier Kaleb Aguiar | Links";
   }, []);
 
   const features = [
@@ -378,7 +378,7 @@ function LinkPage() {
       <div className="flyer-backdrop" aria-hidden="true">
         <img src={clientConfig.assets.hero} alt="" />
       </div>
-      <article className="flyer-poster" aria-label="Linkpage premium Kaleb Aguiar">
+      <article className="flyer-poster" aria-label="Linkpage premium Atelier Kaleb Aguiar">
         <section className="flyer-hero">
           <div className="flyer-hero-image" aria-hidden="true">
             <img className="flyer-hero-poster" src="/assets/kaleb-aguiar/hero-section-red-crown-final.png" alt="" />
@@ -410,9 +410,9 @@ function LinkPage() {
               <span>memoria</span>
             </h1>
             <i className="flyer-divider" aria-hidden="true" />
-            <p className="flyer-support-copy">Escolha sua ocasiao e agende uma prova com atendimento sob medida.</p>
+            <p className="flyer-support-copy">Conheca os modelos, tire duvidas e visite o atelie sem compromisso antes de decidir.</p>
             <div className="flyer-cta-stack">
-              <CtaButton context="linkpage flyer principal">Agendar minha prova</CtaButton>
+              <CtaButton context="linkpage principal">Visite o atelie sem compromisso</CtaButton>
               <a className="btn btn--outline" href="#flyer-estilos">
                 <span>Ver vestidos disponiveis</span>
                 <ArrowIcon />
@@ -457,10 +457,10 @@ function LinkPage() {
           ))}
         </section>
 
-        <section className="flyer-bridge" aria-label="Vitrine completa Kaleb Aguiar">
+        <section className="flyer-bridge" aria-label="Vitrine completa Atelier Kaleb Aguiar">
           <div>
             <p className="flyer-kicker">Vitrine completa</p>
-            <h2>Veja a experiencia completa antes de agendar.</h2>
+            <h2>Veja a experiencia completa antes de visitar.</h2>
           </div>
           <SmartLink href="/vitrine" className="btn btn--outline">
             <span>Entrar na vitrine</span>

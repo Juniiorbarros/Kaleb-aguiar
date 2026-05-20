@@ -1,8 +1,8 @@
-# Kaleb Aguiar
+# Atelier Kaleb Aguiar
 
 ## Produto
 
-Projeto digital premium para Kaleb Aguiar, designer de moda em Manaus. A entrega une uma linkpage de alto impacto para Instagram e uma vitrine completa para apresentar aluguel exclusivo, atendimento sob medida e vestidos para ocasioes especiais.
+Projeto digital premium para Atelier Kaleb Aguiar, designer de moda em Manaus. A entrega une uma linkpage de alto impacto para Instagram e uma vitrine completa para apresentar aluguel exclusivo, atendimento sob medida e vestidos para ocasioes especiais.
 
 ## Publico
 

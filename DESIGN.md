@@ -1,4 +1,4 @@
-# Kaleb Aguiar Design System
+# Atelier Kaleb Aguiar Design System
 
 ## Cena
 

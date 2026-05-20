@@ -1,20 +1,20 @@
 const image = (name) => `/assets/kaleb-aguiar/${name}`;
 
 export const clientConfig = {
-  brand: "Kaleb Aguiar",
+  brand: "Atelier Kaleb Aguiar",
   descriptor: "Designer de moda",
   handle: "@kaleb_aguiar",
   instagramUrl: "https://www.instagram.com/kaleb_aguiar/",
   fallbackContactUrl: "https://www.instagram.com/kaleb_aguiar/",
   phoneDisplay: "WhatsApp a confirmar",
   contactMode: "instagram",
-  contactNote: "Atendimento inicial pelo Instagram ate confirmacao do WhatsApp oficial.",
+  contactNote: "Atendimento inicial pelo Instagram. Voce pode tirar duvidas e visitar o atelie sem compromisso antes de decidir.",
   city: "Manaus, AM",
   address: "Rua Rio Purus, 1078, Vieiralves, Manaus - AM, 69053-050",
   addressShort: "Rua Rio Purus, 1078 - Vieiralves",
   promise: "Reserve o vestido da sua grande entrada.",
-  positioning: "Aluguel exclusivo para debutantes, madrinhas e formandas em Manaus. Escolha sua ocasiao, agende a prova e receba atendimento sob medida no atelie.",
-  proof: ["Aluguel exclusivo", "Prova em Vieiralves", "Debutantes | Madrinhas | Formandas"],
+  positioning: "Aluguel exclusivo para debutantes, madrinhas e formandas em Manaus. Conheca os modelos, tire duvidas e visite o atelie sem compromisso antes de decidir.",
+  proof: ["Visita sem compromisso", "Atelie em Vieiralves", "Debutantes | Madrinhas | Formandas"],
   assets: {
     logo: image("kaleb-logo.jpeg"),
     hero: image("hero-debutante-roxo-escadaria.png"),
@@ -29,7 +29,7 @@ export const clientConfig = {
   },
   links: {
     maps: "https://www.google.com/maps/search/?api=1&query=Rua%20Rio%20Purus%2C%201078%2C%20Vieiralves%2C%20Manaus%20AM%2069053-050",
-    uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=-3.1071200&dropoff[longitude]=-60.0211834&dropoff[nickname]=Kaleb%20Aguiar%20Atelie&dropoff[formatted_address]=Rua%20Rio%20Purus%2C%201078%20-%20Vieiralves%2C%20Manaus%20-%20AM%2C%2069053-050",
+    uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=-3.1071200&dropoff[longitude]=-60.0211834&dropoff[nickname]=Atelier%20Kaleb%20Aguiar&dropoff[formatted_address]=Rua%20Rio%20Purus%2C%201078%20-%20Vieiralves%2C%20Manaus%20-%20AM%2C%2069053-050",
   },
   categories: [
     {
@@ -79,10 +79,10 @@ export const clientConfig = {
     },
     {
       id: "prova",
-      label: "Prova",
-      eyebrow: "Atendimento",
-      title: "Agendar prova no atelie",
-      body: "Fale sua data, estilo e tamanho. O atendimento direciona os melhores modelos.",
+      label: "Atendimento",
+      eyebrow: "Duvidas e visita",
+      title: "Conhecer o atelie sem compromisso",
+      body: "Fale sua data, estilo e tamanho. O atendimento orienta os modelos antes da sua visita.",
       image: image("vestido-lilas-baloes.png"),
       accent: "var(--violet)",
     },
@@ -90,14 +90,14 @@ export const clientConfig = {
   process: [
     ["01", "Diga sua data", "Informe o evento, horario e tipo de vestido que procura."],
     ["02", "Escolha o estilo", "Envie referencias de cor, brilho, volume e caimento."],
-    ["03", "Agende a prova", "O atelie separa opcoes antes da sua visita."],
+    ["03", "Visite sem compromisso", "O atelie orienta opcoes antes da sua decisao."],
     ["04", "Reserve o modelo", "Gostou do vestido? Saia com a data encaminhada."],
   ],
 };
 
 export function buildReservationUrl(context = "") {
   const message = context
-    ? `Ola, Kaleb Aguiar. Vim pelo site e quero agendar uma prova para: ${context}.`
-    : "Ola, Kaleb Aguiar. Vim pelo site e quero agendar uma prova.";
+    ? `Ola, Atelier Kaleb Aguiar. Vim pelo site e quero conhecer os vestidos sem compromisso. Tenho interesse em: ${context}.`
+    : "Ola, Atelier Kaleb Aguiar. Vim pelo site e quero conhecer os vestidos sem compromisso.";
   return `${clientConfig.instagramUrl}?utm_source=site&utm_medium=cta&utm_campaign=${encodeURIComponent(message)}`;
 }
