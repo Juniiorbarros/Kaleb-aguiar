@@ -302,7 +302,7 @@ function LinkAction({ item }) {
 
 function OccasionShowcase({ items }) {
   const [activeIndex, setActiveIndex] = React.useState(0);
-  const [dragStart, setDragStart] = React.useState(null);
+  const railRef = React.useRef(null);
   const active = items[activeIndex] || items[0];
   const goTo = React.useCallback((index) => {
     const length = items.length;
@@ -311,28 +311,12 @@ function OccasionShowcase({ items }) {
   const shift = React.useCallback((step) => {
     goTo(activeIndex + step);
   }, [activeIndex, goTo]);
-  const getCarouselOffset = React.useCallback((index) => {
-    const length = items.length;
-    const half = Math.floor(length / 2);
-    const rawOffset = index - activeIndex;
-    if (rawOffset > half) return rawOffset - length;
-    if (rawOffset < -half) return rawOffset + length;
-    return rawOffset;
-  }, [activeIndex, items.length]);
-  const onPointerDown = React.useCallback((event) => {
-    if (event.pointerType === "mouse" && event.button !== 0) return;
-    event.currentTarget.setPointerCapture?.(event.pointerId);
-    setDragStart({ x: event.clientX, y: event.clientY });
-  }, []);
-  const onPointerUp = React.useCallback((event) => {
-    if (!dragStart) return;
-    const deltaX = event.clientX - dragStart.x;
-    const deltaY = event.clientY - dragStart.y;
-    setDragStart(null);
-    if (Math.abs(deltaX) < 34 || Math.abs(deltaX) < Math.abs(deltaY)) return;
-    event.preventDefault();
-    shift(deltaX < 0 ? 1 : -1);
-  }, [dragStart, shift]);
+
+  React.useEffect(() => {
+    const rail = railRef.current;
+    const activeTile = rail?.querySelector('[aria-selected="true"]');
+    activeTile?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }, [activeIndex]);
 
   return (
     <section
@@ -396,13 +380,10 @@ function OccasionShowcase({ items }) {
       </div>
 
       <div
+        ref={railRef}
         className="occasion-rail"
         role="listbox"
         aria-label="Ocasiões"
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
-        onLostPointerCapture={() => setDragStart(null)}
-        onPointerCancel={() => setDragStart(null)}
       >
         <button
           className="occasion-rail-cue occasion-rail-cue--prev"
@@ -418,15 +399,12 @@ function OccasionShowcase({ items }) {
           <span aria-hidden="true">‹</span>
         </button>
         {items.map((item, index) => {
-          const offset = getCarouselOffset(index);
-          const absOffset = Math.abs(offset);
-          const isActive = absOffset === 0;
-          const isNeighbor = absOffset === 1;
+          const isActive = index === activeIndex;
           return (
             <button
               key={item.id}
               type="button"
-              className={`occasion-tile ${isActive ? "is-active" : ""} ${isNeighbor ? "is-neighbor" : ""} ${offset < 0 ? "is-left" : ""} ${offset > 0 ? "is-right" : ""} ${absOffset > 1 ? "is-far" : ""}`}
+              className={`occasion-tile ${isActive ? "is-active" : ""}`}
               style={{
                 "--accent": item.accent,
                 "--delay": `${index * 55}ms`,
