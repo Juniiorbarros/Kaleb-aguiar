@@ -401,6 +401,7 @@ function OccasionShowcase({ items }) {
         aria-label="Ocasiões"
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
+        onLostPointerCapture={() => setDragStart(null)}
         onPointerCancel={() => setDragStart(null)}
       >
         <button

@@ -771,10 +771,27 @@ h1 {
 
 .flyer-hero-poster {
   z-index: -2;
+  opacity: 0;
+  will-change: opacity, filter;
+  animation: mobileHeroImageSwap 18s ease-in-out infinite;
+  animation-delay: 10.6s;
 }
 
 .flyer-hero-mobile-bg {
-  display: none;
+  display: block;
+  opacity: 0;
+  will-change: opacity, filter;
+  animation: mobileHeroImageSwap 18s ease-in-out infinite;
+}
+
+.flyer-hero-image .flyer-hero-mobile-bg--boi {
+  object-position: 100% 50%;
+  animation-delay: -1.4s;
+}
+
+.flyer-hero-image .flyer-hero-mobile-bg--nicole {
+  object-position: 100% 50%;
+  animation-delay: 4.6s;
 }
 
 .flyer-hero-image video {
@@ -1289,6 +1306,10 @@ h1 {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 10px;
   margin-top: 4px;
+}
+
+.occasion-rail-cue {
+  display: none;
 }
 
 .occasion-tile {
@@ -1977,7 +1998,7 @@ h1 {
     position: absolute;
     top: 8px;
     left: 50%;
-    width: min(38vw, 146px);
+    width: clamp(104px, 34vw, 136px);
     min-height: 148px;
     opacity: 0;
     z-index: 1;
@@ -2003,11 +2024,11 @@ h1 {
   }
 
   .occasion-tile.is-neighbor.is-left {
-    transform: translateX(-50%) translate3d(-116px, 0, -46px) rotateY(23deg) scale(0.82) !important;
+    transform: translateX(-50%) translate3d(calc(-1 * clamp(76px, 28vw, 108px)), 0, -46px) rotateY(23deg) scale(0.82) !important;
   }
 
   .occasion-tile.is-neighbor.is-right {
-    transform: translateX(-50%) translate3d(116px, 0, -46px) rotateY(-23deg) scale(0.82) !important;
+    transform: translateX(-50%) translate3d(clamp(76px, 28vw, 108px), 0, -46px) rotateY(-23deg) scale(0.82) !important;
   }
 
   .occasion-tile.is-far {
