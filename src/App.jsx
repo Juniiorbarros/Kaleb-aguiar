@@ -302,11 +302,37 @@ function LinkAction({ item }) {
 
 function OccasionShowcase({ items }) {
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const [dragStart, setDragStart] = React.useState(null);
   const active = items[activeIndex] || items[0];
   const goTo = React.useCallback((index) => {
     const length = items.length;
     setActiveIndex(((index % length) + length) % length);
   }, [items.length]);
+  const shift = React.useCallback((step) => {
+    goTo(activeIndex + step);
+  }, [activeIndex, goTo]);
+  const getCarouselOffset = React.useCallback((index) => {
+    const length = items.length;
+    const half = Math.floor(length / 2);
+    const rawOffset = index - activeIndex;
+    if (rawOffset > half) return rawOffset - length;
+    if (rawOffset < -half) return rawOffset + length;
+    return rawOffset;
+  }, [activeIndex, items.length]);
+  const onPointerDown = React.useCallback((event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    setDragStart({ x: event.clientX, y: event.clientY });
+  }, []);
+  const onPointerUp = React.useCallback((event) => {
+    if (!dragStart) return;
+    const deltaX = event.clientX - dragStart.x;
+    const deltaY = event.clientY - dragStart.y;
+    setDragStart(null);
+    if (Math.abs(deltaX) < 34 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+    event.preventDefault();
+    shift(deltaX < 0 ? 1 : -1);
+  }, [dragStart, shift]);
 
   return (
     <section className="occasion-showcase" id="flyer-estilos" aria-label="Escolher estilo de vestido" style={{ "--occasion-accent": active.accent }}>
@@ -353,28 +379,69 @@ function OccasionShowcase({ items }) {
         </button>
       </div>
 
-      <div className="occasion-rail" role="listbox" aria-label="Ocasiões">
-        {items.map((item, index) => (
-          <button
-            key={item.id}
-            type="button"
-            className={`occasion-tile ${index === activeIndex ? "is-active" : ""}`}
-            style={{ "--accent": item.accent, "--delay": `${index * 55}ms` }}
-            onClick={() => goTo(index)}
-            onMouseEnter={() => goTo(index)}
-            onFocus={() => goTo(index)}
-            aria-label={`Ver ${item.label}`}
-            aria-selected={index === activeIndex}
-            role="option"
-          >
-            <img src={item.image} alt="" loading={index < 3 ? "eager" : "lazy"} />
-            <span className="occasion-tile-glow" aria-hidden="true" />
-            <span className="occasion-tile-copy">
-              <em>{item.eyebrow}</em>
-              <strong>{item.label}</strong>
-            </span>
-          </button>
-        ))}
+      <div
+        className="occasion-rail"
+        role="listbox"
+        aria-label="Ocasiões"
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => setDragStart(null)}
+      >
+        <button
+          className="occasion-rail-cue occasion-rail-cue--prev"
+          type="button"
+          onPointerDown={(event) => event.stopPropagation()}
+          onPointerUp={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            event.stopPropagation();
+            shift(-1);
+          }}
+          aria-label="Puxar carrossel para a esquerda"
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+        {items.map((item, index) => {
+          const offset = getCarouselOffset(index);
+          const absOffset = Math.abs(offset);
+          const isActive = absOffset === 0;
+          const isNeighbor = absOffset === 1;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`occasion-tile ${isActive ? "is-active" : ""} ${isNeighbor ? "is-neighbor" : ""} ${offset < 0 ? "is-left" : ""} ${offset > 0 ? "is-right" : ""} ${absOffset > 1 ? "is-far" : ""}`}
+              style={{
+                "--accent": item.accent,
+                "--delay": `${index * 55}ms`,
+              }}
+              onClick={() => goTo(index)}
+              onFocus={() => goTo(index)}
+              aria-label={`Ver ${item.label}`}
+              aria-selected={index === activeIndex}
+              role="option"
+            >
+              <img src={item.image} alt="" loading={index < 3 ? "eager" : "lazy"} />
+              <span className="occasion-tile-glow" aria-hidden="true" />
+              <span className="occasion-tile-copy">
+                <em>{item.eyebrow}</em>
+                <strong>{item.label}</strong>
+              </span>
+            </button>
+          );
+        })}
+        <button
+          className="occasion-rail-cue occasion-rail-cue--next"
+          type="button"
+          onPointerDown={(event) => event.stopPropagation()}
+          onPointerUp={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            event.stopPropagation();
+            shift(1);
+          }}
+          aria-label="Puxar carrossel para a direita"
+        >
+          <span aria-hidden="true">›</span>
+        </button>
       </div>
     </section>
   );
@@ -482,7 +549,7 @@ function LinkPage() {
             <p className="flyer-kicker">Vitrine completa</p>
             <h2>Veja a experiencia completa antes de visitar.</h2>
           </div>
-          <SmartLink href="/vitrine" className="btn btn--outline">
+          <SmartLink href="/" className="btn btn--outline">
             <span>Entrar na vitrine</span>
             <ArrowIcon />
           </SmartLink>
@@ -500,7 +567,7 @@ function LinkPage() {
 
 export function App() {
   const pathname = usePathname();
-  if (pathname === "/vitrine") return <ShowcasePage />;
-  if (pathname === "/" || pathname === "/links") return <LinkPage />;
+  if (pathname === "/links") return <LinkPage />;
+  if (pathname === "/" || pathname === "/vitrine") return <ShowcasePage />;
   return <ShowcasePage />;
 }
