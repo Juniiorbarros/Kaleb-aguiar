@@ -335,10 +335,26 @@ function OccasionShowcase({ items }) {
   }, [dragStart, shift]);
 
   return (
-    <section className="occasion-showcase" id="flyer-estilos" aria-label="Escolher estilo de vestido" style={{ "--occasion-accent": active.accent }}>
+    <section
+      className="occasion-showcase"
+      id="flyer-estilos"
+      aria-label="Escolher estilo de vestido"
+      style={{
+        "--occasion-accent": active.accent,
+        "--occasion-position": active.imagePosition,
+        "--occasion-mobile-position": active.mobilePosition,
+      }}
+    >
       <div className="occasion-bg-stack" aria-hidden="true">
         {items.map((item, index) => (
-          <img key={item.id} src={item.image} alt="" className={index === activeIndex ? "is-active" : ""} loading={index < 2 ? "eager" : "lazy"} />
+          <img
+            key={item.id}
+            src={item.image}
+            alt=""
+            className={index === activeIndex ? "is-active" : ""}
+            loading={index < 2 ? "eager" : "lazy"}
+            style={{ "--image-position": item.imagePosition }}
+          />
         ))}
       </div>
 
@@ -413,6 +429,7 @@ function OccasionShowcase({ items }) {
               style={{
                 "--accent": item.accent,
                 "--delay": `${index * 55}ms`,
+                "--tile-position": item.tilePosition,
               }}
               onClick={() => goTo(index)}
               onFocus={() => goTo(index)}
@@ -523,7 +540,7 @@ function LinkPage() {
           </aside>
         </section>
 
-        <OccasionShowcase items={clientConfig.categories} />
+        <OccasionShowcase items={clientConfig.linkpageCategories} />
 
         <section className="flyer-feature-bar" aria-label="Diferenciais do atelie">
           {features.map(([top, bottom]) => (
