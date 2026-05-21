@@ -315,7 +315,14 @@ function OccasionShowcase({ items }) {
   React.useEffect(() => {
     const rail = railRef.current;
     const activeTile = rail?.querySelector('[aria-selected="true"]');
-    activeTile?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    if (!rail || !activeTile) return;
+
+    const targetLeft = activeTile.offsetLeft - rail.offsetLeft - ((rail.clientWidth - activeTile.clientWidth) / 2);
+    const maxLeft = rail.scrollWidth - rail.clientWidth;
+    rail.scrollTo({
+      left: Math.max(0, Math.min(targetLeft, maxLeft)),
+      behavior: "smooth",
+    });
   }, [activeIndex]);
 
   return (
@@ -446,6 +453,14 @@ function OccasionShowcase({ items }) {
 function LinkPage() {
   React.useEffect(() => {
     document.title = "Atelier Kaleb Aguiar | Links";
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    if (window.location.hash) {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
   }, []);
 
   const features = [

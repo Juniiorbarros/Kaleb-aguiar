@@ -13,8 +13,8 @@ export const clientConfig = {
   contactMode: "whatsapp",
   contactNote: "Atendimento inicial pelo WhatsApp. Voce pode tirar duvidas e visitar o atelie sem compromisso antes de decidir.",
   city: "Manaus, AM",
-  address: "Rua Rio Purus, 1078 - Vieiralves, Manaus - AM",
-  addressShort: "Rua Rio Purus, 1078 - Vieiralves",
+  address: "Rua Rio Purus 1078 - Vieiralves, Manaus - AM",
+  addressShort: "Rua Rio Purus 1078 - Vieiralves",
   promise: "Reserve o vestido da sua grande entrada.",
   positioning: "Aluguel exclusivo para debutantes, madrinhas, moda festa, formatura, noivas, exclusivos e Miss em Manaus. Conheca os modelos, tire duvidas e visite o atelie sem compromisso antes de decidir.",
   proof: ["Visita sem compromisso", "Atelie em Vieiralves", "Debutantes | Moda festa | Miss"],
@@ -31,8 +31,8 @@ export const clientConfig = {
     silver: image("vestido-prata-noite.png"),
   },
   links: {
-    maps: "https://www.google.com/maps/search/?api=1&query=Rua%20Rio%20Purus%2C%201078%20-%20Vieiralves%2C%20Manaus%20-%20AM",
-    uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[latitude]=-3.1071200&dropoff[longitude]=-60.0211834&dropoff[nickname]=Atelier%20Kaleb%20Aguiar&dropoff[formatted_address]=Rua%20Rio%20Purus%2C%201078%20-%20Vieiralves%2C%20Manaus%20-%20AM",
+    maps: "https://www.google.com/maps/search/?api=1&query=Rua%20Rio%20Purus%201078%2C%20Vieiralves%2C%20Manaus%20-%20AM",
+    uber: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[nickname]=Atelier%20Kaleb%20Aguiar&dropoff[formatted_address]=Rua%20Rio%20Purus%201078%2C%20Vieiralves%2C%20Manaus%20-%20AM",
   },
   categories: [
     {
