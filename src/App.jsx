@@ -187,12 +187,36 @@ function HeroSocialLinks() {
 function LocationActions({ compact = false }) {
   const [copied, setCopied] = React.useState(false);
   const copyAddress = async () => {
-    try {
-      await navigator.clipboard.writeText(clientConfig.address);
+    const showCopied = () => {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
+    };
+
+    const fallbackCopy = () => {
+      const input = document.createElement("textarea");
+      input.value = clientConfig.address;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.focus();
+      input.select();
+      const didCopy = document.execCommand("copy");
+      document.body.removeChild(input);
+      return didCopy;
+    };
+
+    try {
+      showCopied();
+      if (fallbackCopy()) {
+        return;
+      }
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(clientConfig.address);
+      }
     } catch {
-      setCopied(false);
+      showCopied();
     }
   };
 
@@ -203,11 +227,11 @@ function LocationActions({ compact = false }) {
         <span>{clientConfig.address}</span>
       </div>
       <div className="location-buttons">
-        <SmartLink href={clientConfig.links.maps} className="btn btn--ghost">Google Maps</SmartLink>
-        <SmartLink href={clientConfig.links.uber} className="btn btn--ghost">Uber</SmartLink>
+        <SmartLink href={clientConfig.links.maps} className="btn btn--ghost">Abrir no Maps</SmartLink>
+        <SmartLink href={clientConfig.links.uber} className="btn btn--ghost">Chamar Uber</SmartLink>
         <button className="btn btn--ghost" type="button" onClick={copyAddress}>
           <CopyIcon />
-          <span>{copied ? "Endereco copiado" : "Copiar para 99"}</span>
+          <span>{copied ? "Endereço copiado" : "Copiar endereço para 99"}</span>
         </button>
       </div>
     </div>
@@ -217,7 +241,10 @@ function LocationActions({ compact = false }) {
 function SiteNav() {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = React.useState("inicio");
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const navRef = React.useRef(null);
+  const mobileCloseRef = React.useRef(null);
+  const mobileToggleRef = React.useRef(null);
 
   React.useEffect(() => {
     if (pathname === "/links") {
@@ -250,22 +277,128 @@ function SiteNav() {
     activeLink?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
   }, [activeSection]);
 
+  React.useEffect(() => {
+    document.body.classList.toggle("is-mobile-nav-open", mobileMenuOpen);
+    if (!mobileMenuOpen) return undefined;
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    window.requestAnimationFrame(() => mobileCloseRef.current?.focus());
+    return () => {
+      document.body.classList.remove("is-mobile-nav-open");
+      window.removeEventListener("keydown", onKeyDown);
+      mobileToggleRef.current?.focus();
+    };
+  }, [mobileMenuOpen]);
+
   const navLinkClass = (id) => activeSection === id ? "is-active" : "";
   const current = (id) => activeSection === id ? "page" : undefined;
   const activate = (id) => () => setActiveSection(id);
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+  const goToMobileSection = (id) => (event) => {
+    event.preventDefault();
+    setActiveSection(id);
+    setMobileMenuOpen(false);
+    window.history.pushState(null, "", `#${getAnchorTargetId(id)}`);
+    window.requestAnimationFrame(() => scrollToSection(id));
+  };
+
+  const mobileItems = [
+    ["inicio", "Início"],
+    ["vestidos", "Vestidos"],
+    ["atelier", "Como reservar"],
+    ["localizacao", "Como chegar"],
+  ];
 
   return (
-    <header className="site-nav">
-      <BrandMark compact />
-      <nav ref={navRef} aria-label="Navegacao principal">
-        <a className={navLinkClass("inicio")} aria-current={current("inicio")} href="#inicio" onClick={activate("inicio")}>Inicio</a>
-        <a className={navLinkClass("vestidos")} aria-current={current("vestidos")} href="#vestidos" onClick={activate("vestidos")}>Vestidos</a>
-        <a className={navLinkClass("atelier")} aria-current={current("atelier")} href="#atelier" onClick={activate("atelier")}>Como reservar</a>
-        <a className={navLinkClass("localizacao")} aria-current={current("localizacao")} href="#localizacao" onClick={activate("localizacao")}>Como chegar</a>
-        <SmartLink className={navLinkClass("linkpage")} aria-current={current("linkpage")} href="/links">Linkpage</SmartLink>
-      </nav>
-      <CtaButton context="menu principal" variant="nav">Visitar</CtaButton>
-    </header>
+    <>
+      <header className="site-nav">
+        <BrandMark compact />
+        <nav ref={navRef} aria-label="Navegação principal">
+          <a className={navLinkClass("inicio")} aria-current={current("inicio")} href="#inicio" onClick={activate("inicio")}>Início</a>
+          <a className={navLinkClass("vestidos")} aria-current={current("vestidos")} href="#vestidos" onClick={activate("vestidos")}>Vestidos</a>
+          <a className={navLinkClass("atelier")} aria-current={current("atelier")} href="#atelier" onClick={activate("atelier")}>Como reservar</a>
+          <a className={navLinkClass("localizacao")} aria-current={current("localizacao")} href="#localizacao" onClick={activate("localizacao")}>Como chegar</a>
+          <SmartLink className={navLinkClass("linkpage")} aria-current={current("linkpage")} href="/links">Linkpage</SmartLink>
+        </nav>
+        <div className="nav-desktop-cta">
+          <CtaButton context="menu principal" variant="nav">Visitar</CtaButton>
+        </div>
+        <button
+          ref={mobileToggleRef}
+          className="mobile-menu-toggle"
+          type="button"
+          aria-label="Abrir menu de navegacao"
+          aria-expanded={mobileMenuOpen}
+          aria-controls="mobile-nav-drawer"
+          onClick={() => setMobileMenuOpen(true)}
+        >
+          <span aria-hidden="true" />
+          <span>Menu</span>
+        </button>
+      </header>
+      <div className={`mobile-nav-layer ${mobileMenuOpen ? "is-open" : ""}`} aria-hidden={!mobileMenuOpen}>
+        <button className="mobile-nav-scrim" type="button" aria-label="Fechar menu" onClick={closeMobileMenu} />
+        <aside
+          id="mobile-nav-drawer"
+          className="mobile-nav-drawer"
+          aria-label="Menu mobile"
+          aria-modal="true"
+          role="dialog"
+        >
+          <div className="mobile-nav-head">
+            <BrandMark compact />
+            <button ref={mobileCloseRef} className="mobile-nav-close" type="button" aria-label="Fechar menu" onClick={closeMobileMenu}>
+              <span aria-hidden="true">x</span>
+            </button>
+          </div>
+
+          <nav className="mobile-nav-links" aria-label="Navegação mobile">
+            {mobileItems.map(([id, label]) => (
+              <a
+                key={id}
+                className={navLinkClass(id)}
+                aria-current={current(id)}
+                href={`#${getAnchorTargetId(id)}`}
+                onClick={goToMobileSection(id)}
+              >
+                <span>{label}</span>
+                <ArrowIcon />
+              </a>
+            ))}
+            <SmartLink className={navLinkClass("linkpage")} aria-current={current("linkpage")} href="/links" onClick={closeMobileMenu}>
+              <span>Linkpage</span>
+              <ArrowIcon />
+            </SmartLink>
+          </nav>
+
+          <div className="mobile-nav-actions">
+        <SmartLink href={buildReservationUrl("visitar sem compromisso")} className="btn btn--primary" onClick={closeMobileMenu}>
+              <CrownIcon />
+              <span>Visitar sem compromisso</span>
+            </SmartLink>
+            <SmartLink href={clientConfig.whatsappUrl} className="btn btn--outline" onClick={closeMobileMenu}>
+              <WhatsAppIcon />
+              <span>Falar no WhatsApp</span>
+            </SmartLink>
+          </div>
+
+          <div className="mobile-nav-social" aria-label="Redes sociais">
+            <SmartLink href={clientConfig.facebookUrl} aria-label="Abrir Facebook do Atelier Kaleb Aguiar" onClick={closeMobileMenu}>
+              <FacebookIcon />
+              <span>Facebook</span>
+            </SmartLink>
+            <SmartLink href={clientConfig.instagramUrl} aria-label="Abrir Instagram do Atelier Kaleb Aguiar" onClick={closeMobileMenu}>
+              <InstagramIcon />
+              <span>Instagram</span>
+            </SmartLink>
+          </div>
+        </aside>
+      </div>
+    </>
   );
 }
 
@@ -281,7 +414,9 @@ function Hero() {
             src={slide.src}
             alt=""
             loading={index === 0 ? "eager" : "lazy"}
+            fetchpriority={index === 0 ? "high" : "low"}
             decoding="async"
+            sizes="100vw"
             className={`hero-bg-slide ${heroSlides.length === 1 ? "hero-bg-slide--single" : ""}`}
             style={{
               "--slide-delay": `${index * 5}s`,
@@ -299,6 +434,7 @@ function Hero() {
               "--hero-mobile-shift-x-end": slide.mobileShiftXEnd,
               "--hero-mobile-shift-y-start": slide.mobileShiftYStart,
               "--hero-mobile-shift-y-end": slide.mobileShiftYEnd,
+              "--hero-mobile-panel-left": slide.mobilePanelLeft,
               "--hero-frame-width": slide.frameWidth,
               "--hero-frame-height": slide.frameHeight,
               "--hero-frame-right": slide.frameRight,
@@ -310,20 +446,20 @@ function Hero() {
         ))}
       </div>
       <div className="hero-content">
-        <p className="kicker">Atelie de cena em Manaus</p>
+        <p className="kicker">ATELIÊ DE CENA EM MANAUS</p>
         <h1 className="hero-title">
           <span className="hero-title__eyebrow">Atelier</span>
           <span className="hero-title__name">Kaleb Aguiar</span>
         </h1>
         <p>{clientConfig.positioning}</p>
         <div className="hero-actions">
-          <CtaButton context="hero vitrine" />
+          <CtaButton context="visitar sem compromisso. Minha ocasião é" />
           <a className="btn btn--outline" href="#vestidos">
-            <span>Ver vestidos disponíveis</span>
+            <span>Ver vestidos do acervo</span>
             <ArrowIcon />
           </a>
         </div>
-        <div className="proof-row" aria-label="Diferenciais do atelie">
+        <div className="proof-row" aria-label="Diferenciais do ateliê">
           {clientConfig.proof.map((item) => <span key={item}>{item}</span>)}
         </div>
       </div>
@@ -409,18 +545,18 @@ function useHorizontalDragScroll() {
 function DressCtaCards({ item, activeImageIndex = 0 }) {
   const photoNumber = activeImageIndex + 1;
   const activePhotoContext = item.isCollectionAlbum
-    ? `${item.whatsappContext}, foto ${photoNumber} do album`
+    ? `${item.whatsappContext}, foto ${photoNumber} do álbum`
     : `${item.whatsappContext}, foto ${photoNumber}`;
   const actions = item.isCollectionAlbum
     ? [
-      ["Consultar foto", activePhotoContext],
-      ["Prova sem compromisso", `${item.whatsappContext} para prova no atelie`],
-      ["Enviar referencia", `quero enviar como referencia: ${item.title}, foto ${photoNumber}`],
+      ["Consultar para minha data", activePhotoContext],
+      ["Visite sem compromisso", `${item.whatsappContext} para visita sem compromisso`],
+      ["Usar como referência", `usar como referência: ${item.title}, foto ${photoNumber}`],
     ]
     : [
-      ["Consultar vestido", activePhotoContext],
-      ["Prova sem compromisso", `${item.whatsappContext} para prova no atelie`],
-      ["Enviar referencia", `quero enviar como referencia: ${item.title}, foto ${photoNumber}`],
+      ["Consultar para minha data", activePhotoContext],
+      ["Visite sem compromisso", `${item.whatsappContext} para visita sem compromisso`],
+      ["Usar como referência", `usar como referência: ${item.title}, foto ${photoNumber}`],
     ];
 
   return (
@@ -452,19 +588,19 @@ function buildCollectionAlbumItem(collection, items) {
   return {
     id: `album-${collection.id}`,
     collectionId: collection.id,
-    title: `Album ${collection.label}`,
+    title: `Álbum de ${collection.label}`,
     eyebrow: collection.eyebrow,
-    shortDescription: `Todas as fotos reais de ${collection.label} reunidas para comparar estilos.`,
-    detailDescription: `Este album completo organiza as referencias de ${collection.label} em uma visualizacao unica. A cliente pode passar foto por foto, escolher o estilo desejado e chamar o atelie com uma direcao mais clara.`,
-    idealFor: [collection.label, "Consulta visual", "Referencia para prova", "Atendimento pelo WhatsApp"],
-    visualDetails: ["Fotos reais do acervo", "Galeria completa da categoria", "Comparacao de estilos", "Consulta sem compromisso"],
+    shortDescription: "Passe pelos looks, salve suas preferências e chame o ateliê com data e ocasião em mente.",
+    detailDescription: "Passe pelos looks, salve suas preferências e chame o ateliê com data e ocasião em mente.",
+    idealFor: ["Comparar caimento", "Definir estilo", "Fotos reais", "Consultar para minha data"],
+    visualDetails: ["Comparar caimento", "Definir estilo", "Fotos reais", "Consultar para minha data"],
     gallery: albumGallery,
     backgroundImage: cover,
-    proof: `${albumGallery.length} fotos reais desta modalidade`,
+    proof: `${albumGallery.length} fotos reais`,
     accent: collection.accent,
     imagePosition: "50% 16%",
     mobilePosition: "50% 12%",
-    whatsappContext: `album completo de ${collection.label}`,
+    whatsappContext: `álbum de ${collection.label}`,
     isCollectionAlbum: true,
   };
 }
@@ -499,14 +635,14 @@ function DressModalNavigator({
   const activeStats = collectionStats[activeCollection.id] || { photos: 0 };
 
   return (
-    <div className="dress-modal-navigator" aria-label={mode === "album" ? "Trocar album ou ver modelos no popup" : "Explorar vestidos no popup"}>
+    <div className="dress-modal-navigator" aria-label={mode === "album" ? "Ver outra categoria" : "Explorar vestidos"}>
       <div className="dress-modal-nav-head">
-        <span>{mode === "album" ? "Trocar album" : "Modalidades"}</span>
+        <span>{mode === "album" ? "Ver outra categoria" : "Modalidades"}</span>
         <strong>{activeCollection.label}</strong>
       </div>
       <div
         className="dress-modal-mode-tabs"
-        aria-label="Trocar modalidade dentro do popup"
+        aria-label="Ver outra categoria"
         {...modeTabsDrag}
       >
         {collections.map((collection) => (
@@ -517,7 +653,7 @@ function DressModalNavigator({
             onClick={() => onSelectCollection(collection.id)}
             style={{ "--mode-accent": collection.accent }}
             aria-pressed={collection.id === activeCollection.id}
-            aria-label={mode === "album" ? `Abrir album ${collection.label}` : `Ver modelos de ${collection.label}`}
+            aria-label={mode === "album" ? `Abrir álbum ${collection.label}` : `Ver ${collection.label}`}
           >
             {collection.label}
           </button>
@@ -539,7 +675,7 @@ function DressModalNavigator({
             <img src={albumCover} alt="" loading="lazy" />
             <span>
               <small>{activeStats.photos} fotos</small>
-              <strong>Album completo</strong>
+              <strong>Ver álbum completo</strong>
             </span>
           </button>
         )}
@@ -580,8 +716,8 @@ function DressAlbumSwitcher({
   };
 
   return (
-    <div className="dress-album-switcher" aria-label="Trocar album dentro do popup">
-      <span>Albuns do acervo</span>
+    <div className="dress-album-switcher" aria-label="Ver outra categoria">
+      <span>Álbuns do acervo</span>
       <div className="dress-album-switcher__tabs" {...albumTabsDrag}>
         {collections.map((collection) => (
           <button
@@ -736,7 +872,7 @@ function DressDetailDialog({
           type="button"
           className="dress-modal-close"
           onClick={onClose}
-          aria-label={item.isCollectionAlbum ? "Fechar album e voltar para a vitrine" : "Fechar detalhes do vestido"}
+          aria-label={item.isCollectionAlbum ? "Fechar álbum e voltar para a vitrine" : "Fechar detalhes do vestido"}
         >
           <span aria-hidden="true">x</span>
         </button>
@@ -753,7 +889,7 @@ function DressDetailDialog({
                 type="button"
                 className="dress-modal-image-nav dress-modal-image-nav--prev"
                 onClick={() => stepImage(-1)}
-                aria-label="Foto anterior do album"
+                aria-label="Foto anterior do álbum"
               >
                 <span aria-hidden="true">{"<"}</span>
               </button>
@@ -761,7 +897,7 @@ function DressDetailDialog({
                 type="button"
                 className="dress-modal-image-nav dress-modal-image-nav--next"
                 onClick={() => stepImage(1)}
-                aria-label="Proxima foto do album"
+                aria-label="Próxima foto do álbum"
               >
                 <span aria-hidden="true">{">"}</span>
               </button>
@@ -802,7 +938,7 @@ function DressDetailDialog({
             {modalTags.map((tag) => <span key={tag}>{tag}</span>)}
           </div>
 
-          <div className="dress-modal-facts" aria-label="Resumo do album">
+          <div className="dress-modal-facts" aria-label="Resumo do álbum">
             {modalFacts.map(([label, value]) => (
               <span key={label}>
                 <small>{label}</small>
@@ -816,7 +952,7 @@ function DressDetailDialog({
             className="dress-modal-consult"
           >
             <WhatsAppIcon />
-            <span>Consultar este vestido</span>
+            <span>Consultar para minha data</span>
             <ArrowIcon />
           </SmartLink>
         </div>
@@ -925,7 +1061,7 @@ function DressFeatureCarousel({ items, activeIndex, onOpen, onStep }) {
             if (slot === "active") onOpen(item);
             else onStep(slot === "prev" ? -1 : 1);
           }}
-          aria-label={slot === "active" ? `Abrir look ${item.title}` : slot === "prev" ? "Ver look anterior" : "Ver proximo look"}
+          aria-label={slot === "active" ? `Ver este look ${item.title}` : slot === "prev" ? "Ver look anterior" : "Ver próximo look"}
         >
           <span className="dress-mini-card" style={{ "--accent": item.accent, "--dress-position": item.imagePosition, "--dress-mobile-position": item.mobilePosition || item.imagePosition }}>
             <img src={item.cardImage || item.gallery[0]} alt="" loading="eager" />
@@ -934,7 +1070,7 @@ function DressFeatureCarousel({ items, activeIndex, onOpen, onStep }) {
             <span className="dress-mini-card__copy">
               <em>{item.eyebrow}</em>
               <strong>{item.title}</strong>
-              <span>Abrir look</span>
+              <span>Ver este look</span>
             </span>
           </span>
         </button>
@@ -950,6 +1086,7 @@ function CategoriesSection() {
   const [detailItem, setDetailItem] = React.useState(null);
   const [sectionRef, sectionInView] = useInViewport({ threshold: 0.24, rootMargin: "0px 0px -12% 0px" });
   const [motionReady, setMotionReady] = React.useState(false);
+  const tabsRef = React.useRef(null);
 
   const activeCollection = collections.find((collection) => collection.id === collectionId) || collections[0];
   const items = getCollectionItems(activeCollection.id);
@@ -976,6 +1113,19 @@ function CategoriesSection() {
     setCollectionId(nextCollectionId);
     setActiveIndex(0);
   }, []);
+
+  React.useEffect(() => {
+    const rail = tabsRef.current;
+    const activeTab = rail?.querySelector('[aria-pressed="true"]');
+    if (!rail || !activeTab || !window.matchMedia("(max-width: 980px)").matches) return;
+
+    const targetLeft = activeTab.offsetLeft - rail.offsetLeft - ((rail.clientWidth - activeTab.clientWidth) / 2);
+    const maxLeft = rail.scrollWidth - rail.clientWidth;
+    rail.scrollTo({
+      left: Math.max(0, Math.min(targetLeft, maxLeft)),
+      behavior: "smooth",
+    });
+  }, [collectionId]);
 
   const openDetailItem = React.useCallback((nextItem) => {
     const nextItems = getCollectionItems(nextItem.collectionId);
@@ -1025,6 +1175,15 @@ function CategoriesSection() {
 
   if (!active) return null;
 
+  const mobileCollectionLabels = {
+    "madrinha-moda-festa": "Madrinha",
+    debutantes: "Debutantes",
+    formatura: "Formatura",
+    noiva: "Noiva",
+    miss: "Miss",
+    exclusivos: "Exclusivos",
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -1066,19 +1225,23 @@ function CategoriesSection() {
         <h2 key={`headline-${activeCollection.id}`}>{activeCollection.headline}</h2>
         <p key={`body-${activeCollection.id}`}>{activeCollection.body}</p>
 
-        <div className="dress-collection-tabs" aria-label="Filtrar vestidos por ocasiao">
+        <div ref={tabsRef} className="dress-collection-tabs" aria-label="Filtrar vestidos por ocasião">
           {collections.map((collection, index) => (
             <button
               key={collection.id}
               type="button"
               className={collection.id === collectionId ? "is-active" : ""}
+              aria-pressed={collection.id === collectionId}
               onClick={() => selectCollection(collection.id)}
               style={{ "--tab-accent": collection.accent, "--tab-index": index }}
             >
               <span className="dress-collection-tabs__icon" aria-hidden="true">
                 {["noiva", "miss", "exclusivos"].includes(collection.id) ? <CrownIcon /> : <DressIcon />}
               </span>
-              <strong>{collection.label}</strong>
+              <strong>
+                <span className="dress-collection-label-full">{collection.label}</span>
+                <span className="dress-collection-label-mobile">{mobileCollectionLabels[collection.id] || collection.label}</span>
+              </strong>
               <span className="dress-collection-tabs__ornament" aria-hidden="true" />
               <small>{collectionStats[collection.id]?.photos || 0} fotos</small>
             </button>
@@ -1089,7 +1252,7 @@ function CategoriesSection() {
           <span className="dress-readout__number">{String(activeIndex + 1).padStart(2, "0")}</span>
           <span className="dress-readout__divider" aria-hidden="true" />
           <span className="dress-readout__copy">
-            <small>{String(items.length).padStart(2, "0")} looks nesta ocasiao</small>
+            <small>{String(items.length).padStart(2, "0")} looks nesta ocasião</small>
             <strong>{active.title}</strong>
             <p>{active.shortDescription}</p>
           </span>
@@ -1101,17 +1264,17 @@ function CategoriesSection() {
         <div className="dress-copy-actions">
           <button type="button" className="btn btn--primary" onClick={() => openDetailItem(active)}>
             <DressIcon />
-            <span>Explorar criacao autoral</span>
+            <span>Ver detalhes do look</span>
             <ArrowIcon />
           </button>
           <button type="button" className="btn btn--outline" onClick={() => openDetailAlbum(activeCollection.id)}>
             <CrownIcon />
-            <span>Abrir album completo</span>
+            <span>Abrir álbum da categoria</span>
             <ArrowIcon />
           </button>
           <SmartLink href={buildReservationUrl(active.whatsappContext)} className="btn btn--outline">
             <WhatsAppIcon />
-            <span>Consultar disponibilidade</span>
+            <span>Consultar para minha data</span>
             <ArrowIcon />
           </SmartLink>
         </div>
@@ -1138,7 +1301,7 @@ function CategoriesSection() {
           <button type="button" onClick={() => step(-1)} aria-label="Vestido anterior">
             <span aria-hidden="true">{"<"}</span>
           </button>
-          <button type="button" onClick={() => step(1)} aria-label="Proximo vestido">
+          <button type="button" onClick={() => step(1)} aria-label="Próximo vestido">
             <span aria-hidden="true">{">"}</span>
           </button>
         </div>
@@ -1166,8 +1329,8 @@ function AtelierSection() {
     <section ref={sectionRef} className={`section atelier ${sectionInView ? "is-in-view" : ""}`} id="atelier">
       <div className="atelier-copy">
         <p className="kicker">Como reservar</p>
-        <h2>Conheca os modelos com uma ideia clara do que voce quer.</h2>
-        <p>O atendimento fica mais rapido quando voce chega com ocasiao, data, estilo e referencias. A vitrine guia esse primeiro contato e ajuda voce a visitar sem compromisso.</p>
+        <h2>Chegue ao ateliê sabendo o que procura.</h2>
+        <p>Veja os modelos, escolha uma direção e envie data e ocasião antes da visita.</p>
         <div className="process-list">
           {clientConfig.process.map(([number, title, body], index) => (
             <article key={number} style={{ "--process-index": index }}>
@@ -1178,8 +1341,8 @@ function AtelierSection() {
           ))}
         </div>
         <div className="atelier-reserve-cta">
-          <span>Consulta direta pelo WhatsApp</span>
-          <strong>Chegue ao atelie com data, estilo e referencias ja encaminhados.</strong>
+          <span>Comece pelo WhatsApp</span>
+          <strong>Envie sua data, ocasião e referências antes da visita.</strong>
           <SmartLink href={buildReservationUrl("consultar modelos para minha data")} className="btn btn--primary">
             <WhatsAppIcon />
             <span>Consultar modelos para minha data</span>
@@ -1202,10 +1365,10 @@ function GallerySection() {
   const galleryBase = gallery.length ? gallery : fallbackGallery;
   const galleryLoop = [...galleryBase, ...galleryBase, ...galleryBase];
   return (
-    <div className="gallery-band" role="region" aria-label="Galeria inicial">
+    <div className="gallery-band" role="region" aria-label="Repertório visual do ateliê">
       <div className="gallery-track">
         {galleryLoop.map((src, index) => (
-          <img key={`${src}-${index}`} src={src} alt="" loading="lazy" />
+          <img key={`${src}-${index}`} src={src} alt="" loading="lazy" decoding="async" />
         ))}
       </div>
     </div>
@@ -1220,23 +1383,23 @@ function LocationSection() {
       <GallerySection />
       <div className="location-inner">
         <div className="location-copy">
-          <p className="kicker">Visita presencial</p>
-          <h2>Chegue ao atelie com direcao.</h2>
-          <p>Abra a rota, envie sua ocasiao e chegue para conhecer os modelos com atendimento objetivo.</p>
+          <p className="kicker">Visita ao ateliê</p>
+          <h2>Chegue ao ateliê com direção.</h2>
+          <p>Abra a rota, envie sua data e visite com referências já escolhidas.</p>
         </div>
         <div className="location-panel">
           <LocationActions />
           <div className="location-final">
             <div>
-              <span>Atendimento pelo WhatsApp</span>
-              <h3>Conheca vestidos para a sua data.</h3>
-              <p>Informe data, ocasiao e estilo para visitar sem compromisso.</p>
+              <span>Próximo passo pelo WhatsApp</span>
+              <h3>Consulte vestidos para sua data.</h3>
+              <p>Envie data, ocasião e estilo para o ateliê orientar modelos antes da visita.</p>
             </div>
             <div className="location-final__actions">
-              <CtaButton context="cta final">Visitar sem compromisso</CtaButton>
+              <CtaButton context="visitar sem compromisso">Visitar sem compromisso</CtaButton>
               <SmartLink href={clientConfig.whatsappUrl} className="btn btn--ghost">
                 <WhatsAppIcon />
-                <span>WhatsApp</span>
+                <span>Falar no WhatsApp</span>
               </SmartLink>
             </div>
           </div>
@@ -1338,7 +1501,7 @@ function OccasionShowcase({ items }) {
       </div>
 
       <div className="occasion-editorial" key={`copy-${active.id}`}>
-        <p className="flyer-kicker">Escolha sua ocasiao</p>
+        <p className="flyer-kicker">Escolha sua ocasião</p>
         <h2>Encontre o vestido ideal.</h2>
         <div className="occasion-count">
           <span>{String(activeIndex + 1).padStart(2, "0")}</span>
@@ -1369,7 +1532,7 @@ function OccasionShowcase({ items }) {
             </SmartLink>
           </div>
         </div>
-        <button className="occasion-nav occasion-nav--next" type="button" onClick={() => goTo(activeIndex + 1)} aria-label="Proximo vestido">
+        <button className="occasion-nav occasion-nav--next" type="button" onClick={() => goTo(activeIndex + 1)} aria-label="Próximo vestido">
           <span aria-hidden="true">›</span>
         </button>
       </div>
@@ -1452,7 +1615,7 @@ function LinkPage() {
   }, []);
 
   const features = [
-    ["Atelie", "sob medida"],
+    ["Ateliê", "sob medida"],
     ["Tecidos", "premium"],
     ["Acabamento", "artesanal"],
     ["Exclusivo", "para voce"],
@@ -1487,7 +1650,7 @@ function LinkPage() {
           </header>
 
           <div className="flyer-copy">
-            <p className="flyer-kicker">Atelie em Manaus</p>
+            <p className="flyer-kicker">ATELIÊ DE CENA EM MANAUS</p>
             <h1>
               Vestidos que<br />
               <span>transformam</span><br />
@@ -1495,12 +1658,12 @@ function LinkPage() {
               <span>memoria</span>
             </h1>
             <i className="flyer-divider" aria-hidden="true" />
-            <p className="flyer-support-copy">Conheca os modelos, tire duvidas e visite o atelie sem compromisso antes de decidir.</p>
+            <p className="flyer-support-copy">Veja o acervo e fale com o ateliê antes da visita.</p>
             <div className="flyer-cta-stack">
               <SocialLinks />
-              <CtaButton context="linkpage principal">Visite o atelie sem compromisso</CtaButton>
+              <CtaButton context="visitar sem compromisso">Visite sem compromisso</CtaButton>
               <a className="btn btn--outline" href="#flyer-estilos">
-                <span>Ver vestidos disponiveis</span>
+                <span>Ver vestidos do acervo</span>
                 <ArrowIcon />
               </a>
             </div>
@@ -1517,14 +1680,14 @@ function LinkPage() {
 
           <aside className="flyer-side-rail" aria-hidden="true">
             <span>Exclusividade</span>
-            <span>Atelie</span>
+            <span>Ateliê</span>
             <span>Sob medida</span>
           </aside>
         </section>
 
         <OccasionShowcase items={clientConfig.linkpageCategories} />
 
-        <section className="flyer-feature-bar" aria-label="Diferenciais do atelie">
+        <section className="flyer-feature-bar" aria-label="Diferenciais do ateliê">
           {features.map(([top, bottom]) => (
             <div key={top}>
               <video
@@ -1546,16 +1709,16 @@ function LinkPage() {
         <section className="flyer-bridge" aria-label="Vitrine completa Atelier Kaleb Aguiar">
           <div>
             <p className="flyer-kicker">Vitrine completa</p>
-            <h2>Veja a experiencia completa antes de visitar.</h2>
+            <h2>Veja o acervo completo antes da visita.</h2>
           </div>
           <SmartLink href="/" className="btn btn--outline">
-            <span>Entrar na vitrine</span>
+            <span>Abrir vitrine completa</span>
             <ArrowIcon />
           </SmartLink>
         </section>
 
         <section className="flyer-location">
-          <h2>Como chegar ao atelie</h2>
+          <h2>Como chegar ao ateliê</h2>
           <p>{clientConfig.contactNote}</p>
           <LocationActions compact />
         </section>
