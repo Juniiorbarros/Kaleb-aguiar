@@ -40,6 +40,62 @@ function scrollToSection(id, behavior = "smooth") {
   return true;
 }
 
+const LINKPAGE_ALBUM_PARAM_BY_ID = {
+  debutante: "debutantes",
+  madrinha: "madrinha",
+  formatura: "formatura",
+  noiva: "noiva",
+  miss: "miss",
+  palco: "exclusivos",
+};
+
+const COLLECTION_ID_BY_ALBUM_PARAM = {
+  debutante: "debutantes",
+  debutantes: "debutantes",
+  "15-anos": "debutantes",
+  madrinha: "madrinha-moda-festa",
+  "moda-festa": "madrinha-moda-festa",
+  "madrinha-moda-festa": "madrinha-moda-festa",
+  formatura: "formatura",
+  noiva: "noiva",
+  noivas: "noiva",
+  miss: "miss",
+  autorais: "exclusivos",
+  exclusivo: "exclusivos",
+  exclusivos: "exclusivos",
+};
+
+const ALBUM_PARAM_BY_COLLECTION_ID = {
+  "madrinha-moda-festa": "madrinha",
+  debutantes: "debutantes",
+  formatura: "formatura",
+  noiva: "noiva",
+  miss: "miss",
+  exclusivos: "exclusivos",
+};
+
+function getCollectionIdFromAlbumParam(albumParam) {
+  if (!albumParam) return null;
+  return COLLECTION_ID_BY_ALBUM_PARAM[String(albumParam).trim().toLowerCase()] || null;
+}
+
+function getCollectionIdFromCurrentUrl() {
+  return getCollectionIdFromAlbumParam(new URLSearchParams(window.location.search).get("album"));
+}
+
+function getLinkpageAlbumHref(item) {
+  const album = LINKPAGE_ALBUM_PARAM_BY_ID[item.id] || item.id;
+  return `/?album=${encodeURIComponent(album)}#vestidos`;
+}
+
+function replaceAlbumParamInCurrentUrl(collectionId) {
+  const album = ALBUM_PARAM_BY_COLLECTION_ID[collectionId] || collectionId;
+  const url = new URL(window.location.href);
+  url.searchParams.set("album", album);
+  url.hash = "vestidos";
+  window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+}
+
 function useInViewport(options = {}) {
   const ref = React.useRef(null);
   const [isInView, setIsInView] = React.useState(false);
@@ -1081,7 +1137,7 @@ function DressFeatureCarousel({ items, activeIndex, onOpen, onStep }) {
 
 function CategoriesSection() {
   const collections = clientConfig.dressCollections;
-  const [collectionId, setCollectionId] = React.useState("madrinha-moda-festa");
+  const [collectionId, setCollectionId] = React.useState(() => getCollectionIdFromCurrentUrl() || "madrinha-moda-festa");
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [detailItem, setDetailItem] = React.useState(null);
   const [sectionRef, sectionInView] = useInViewport({ threshold: 0.24, rootMargin: "0px 0px -12% 0px" });
@@ -1110,9 +1166,23 @@ function CategoriesSection() {
     }, {});
   }, [collections]);
   const selectCollection = React.useCallback((nextCollectionId) => {
+    replaceAlbumParamInCurrentUrl(nextCollectionId);
     setCollectionId(nextCollectionId);
     setActiveIndex(0);
   }, []);
+
+  React.useEffect(() => {
+    const syncCollectionFromUrl = () => {
+      const nextCollectionId = getCollectionIdFromCurrentUrl();
+      if (!nextCollectionId || nextCollectionId === collectionId) return;
+      setCollectionId(nextCollectionId);
+      setActiveIndex(0);
+    };
+
+    syncCollectionFromUrl();
+    window.addEventListener("popstate", syncCollectionFromUrl);
+    return () => window.removeEventListener("popstate", syncCollectionFromUrl);
+  }, [collectionId]);
 
   React.useEffect(() => {
     const rail = tabsRef.current;
@@ -1131,6 +1201,7 @@ function CategoriesSection() {
     const nextItems = getCollectionItems(nextItem.collectionId);
     const nextIndex = nextItems.findIndex((dressItem) => dressItem.id === nextItem.id);
     const nextCollection = collections.find((collection) => collection.id === nextItem.collectionId);
+    replaceAlbumParamInCurrentUrl(nextItem.collectionId);
     setCollectionId(nextItem.collectionId);
     setActiveIndex(nextIndex >= 0 ? nextIndex : 0);
     if (nextCollection && nextItems.length) {
@@ -1144,6 +1215,7 @@ function CategoriesSection() {
     const nextCollection = collections.find((collection) => collection.id === nextCollectionId);
     const nextItems = getCollectionItems(nextCollectionId);
     if (!nextCollection || !nextItems.length) return;
+    replaceAlbumParamInCurrentUrl(nextCollection.id);
     setCollectionId(nextCollection.id);
     setActiveIndex(0);
     setDetailItem(buildCollectionAlbumItem(nextCollection, nextItems));
@@ -1417,8 +1489,14 @@ function ShowcasePage() {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
-    if (window.location.hash) {
+    const initialHash = window.location.hash.slice(1);
+    const shouldOpenAlbumSection = initialHash === "vestidos" && Boolean(getCollectionIdFromCurrentUrl());
+    if (window.location.hash && !shouldOpenAlbumSection) {
       window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+    if (shouldOpenAlbumSection) {
+      window.requestAnimationFrame(() => scrollToSection("vestidos", "auto"));
+      return;
     }
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
@@ -1510,7 +1588,7 @@ function OccasionShowcase({ items }) {
         </div>
         <strong>{active.eyebrow}</strong>
         <p>{active.body}</p>
-        <SmartLink href={buildReservationUrl(active.label)} className="btn btn--primary">
+        <SmartLink href={getLinkpageAlbumHref(active)} className="btn btn--primary">
           <CrownIcon />
           <span>{active.title}</span>
         </SmartLink>
@@ -1520,18 +1598,22 @@ function OccasionShowcase({ items }) {
         <button className="occasion-nav occasion-nav--prev" type="button" onClick={() => goTo(activeIndex - 1)} aria-label="Vestido anterior">
           <span aria-hidden="true">‹</span>
         </button>
-        <div className="occasion-stage" key={active.id}>
+        <SmartLink
+          href={getLinkpageAlbumHref(active)}
+          className="occasion-stage"
+          key={active.id}
+        >
           <img src={active.image} alt={active.title} loading="eager" />
           <div className="occasion-stage-shade" aria-hidden="true" />
           <div className="occasion-stage-copy">
             <span>{active.eyebrow}</span>
             <h2>{active.label}</h2>
-            <SmartLink href={buildReservationUrl(active.label)}>
+            <span className="occasion-stage-link">
               {active.title}
               <ArrowIcon />
-            </SmartLink>
+            </span>
           </div>
-        </div>
+        </SmartLink>
         <button className="occasion-nav occasion-nav--next" type="button" onClick={() => goTo(activeIndex + 1)} aria-label="Próximo vestido">
           <span aria-hidden="true">›</span>
         </button>
@@ -1568,7 +1650,7 @@ function OccasionShowcase({ items }) {
                 "--delay": `${index * 55}ms`,
                 "--tile-position": item.tilePosition,
               }}
-              onClick={() => goTo(index)}
+              onClick={() => navigateTo(getLinkpageAlbumHref(item))}
               onFocus={() => goTo(index)}
               aria-label={`Ver ${item.label}`}
               aria-selected={index === activeIndex}
@@ -1666,11 +1748,6 @@ function LinkPage() {
                 <span>Ver vestidos do acervo</span>
                 <ArrowIcon />
               </a>
-            </div>
-            <div className="flyer-proof-strip" aria-label="Diferenciais principais">
-              {clientConfig.proof.map((item) => (
-                <span key={item}>{item}</span>
-              ))}
             </div>
           </div>
 
