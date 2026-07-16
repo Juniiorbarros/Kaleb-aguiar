@@ -1,6 +1,8 @@
 import React from "react";
 import { clientConfig, buildReservationUrl } from "./config/client.config.js";
 import { ArrowIcon, CopyIcon, CrownIcon, DressIcon, FacebookIcon, InstagramIcon, PinIcon, WhatsAppIcon } from "./components/Icons.jsx";
+import { LinksPage } from "./pages/LinksPage.jsx";
+import { usePageMetadata } from "./utils/usePageMetadata.js";
 
 function usePathname() {
   const [pathname, setPathname] = React.useState(() => window.location.pathname || "/");
@@ -1683,9 +1685,15 @@ function OccasionShowcase({ items }) {
   );
 }
 
-function LinkPage() {
+function ArchivedLinkPage() {
+  usePageMetadata({
+    title: "Atelier Kaleb Aguiar | Links (arquivo)",
+    description: "Versão arquivada da antiga página de links do Atelier Kaleb Aguiar.",
+    robots: "noindex, nofollow",
+    canonicalPath: null,
+  });
+
   React.useEffect(() => {
-    document.title = "Atelier Kaleb Aguiar | Links";
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
@@ -1806,7 +1814,8 @@ function LinkPage() {
 
 export function App() {
   const pathname = usePathname();
-  if (pathname === "/links") return <LinkPage />;
+  if (pathname === "/links") return <LinksPage />;
+  if (pathname === "/links-antiga") return <ArchivedLinkPage />;
   if (pathname === "/" || pathname === "/vitrine") return <ShowcasePage />;
   return <ShowcasePage />;
 }
