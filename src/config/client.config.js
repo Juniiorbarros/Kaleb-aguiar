@@ -39,7 +39,7 @@ export const clientConfig = {
   descriptor: "Designer de moda",
   handle: "@kaleb_aguiar",
   instagramUrl: "https://www.instagram.com/kaleb_aguiar/",
-  tiktokUrl: null,
+  tiktokUrl: "https://www.tiktok.com/@kalebaguiar0",
   facebookUrl: "https://www.facebook.com/p/Kaleb-Aguiar-100063493009146/",
   whatsappUrl: "https://wa.me/5592993509850",
   fallbackContactUrl: "https://wa.me/5592993509850",
