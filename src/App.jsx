@@ -1815,7 +1815,7 @@ function ArchivedLinkPage() {
 export function App() {
   const pathname = usePathname();
   if (pathname === "/links") return <LinksPage />;
-  if (pathname === "/links-antiga") return <ArchivedLinkPage />;
+  if (pathname === "/links-antigo") return <ArchivedLinkPage />;
   if (pathname === "/" || pathname === "/vitrine") return <ShowcasePage />;
   return <ShowcasePage />;
 }
